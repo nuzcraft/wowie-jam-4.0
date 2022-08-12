@@ -7,7 +7,7 @@ class Monster{
         this.vXLeft = 0;
         this.vYUp = 0;
         this.vYDown = 0;
-        this.fireRate = 30;
+        this.fireRate = 60;
     }
 
     draw(){
