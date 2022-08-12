@@ -24,10 +24,10 @@
     startGame();
 
     document.querySelector("html").onkeydown = function(e){
-        if (e.key == "w") player.vYUp = -5;
-        if (e.key == "s") player.vYDown = 5;
-        if (e.key == "a") player.vXLeft = -5;
-        if (e.key == "d") player.vXRight = 5;
+        if (e.key == "w") player.vYUp = -player.speed;
+        if (e.key == "s") player.vYDown = player.speed;
+        if (e.key == "a") player.vXLeft = -player.speed;
+        if (e.key == "d") player.vXRight = player.speed;
 
         // if (e.key == "p") player.shoot(); // debugging only
     }

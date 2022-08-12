@@ -6,9 +6,11 @@ const spr_yellow_ball_1 = 2;
 const spr_yellow_ball_2 = 3;
 const spr_yellow_ball_3 = 4;
 
-let projectiles = [];
+var projectiles = [];
+var monsters = [];
+var maxNumMonsters = 3;
 
-let frameCount = 0;
+var frameCount = 0;
 
 function setupCanvas(){
     canvas = document.querySelector("canvas");
@@ -22,8 +24,8 @@ function setupCanvas(){
 }
 
 function startGame() {
-    player = new Monster(100, 100, spr_fighter);
-    companion = new Monster(200, 200, spr_rogue);
+    player = new Player(100, 100);
+    companion = new Companion(200, 200);
 }
 
 function tick(){
@@ -31,6 +33,8 @@ function tick(){
 
     player.update();
     companion.update();
+
+    monsters.forEach((monster) => monster.update());
 
     projectiles.forEach((projectile) => projectile.update());
 
@@ -40,19 +44,20 @@ function tick(){
         }
     }
 
+    spawnMonsters();
+
     frameCount += 1;
 }
 
 function draw(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // draw player
-    player.draw();
-
-    // draw companion
-    companion.draw();
+    
+    monsters.forEach((monster) => monster.draw());
 
     projectiles.forEach((projectile) => projectile.draw());
+
+    companion.draw();
+    player.draw();
 }
 
 function drawSprite(spriteIndex, x, y){
@@ -83,4 +88,18 @@ function getLocationOnFXSpritesheetSmall(spriteIndex){
     let y_loc = Math.floor(spriteIndex / 10) * tile_width;
 
     return [x_loc + x_offset, y_loc + y_offset];
+}
+
+function spawnMonsters(){
+    if (monsters.length < maxNumMonsters){
+        let x_loc = Math.random() * canvas.width;
+        let y_loc = Math.random() * canvas.height;
+        if (dist(player.x, player.y, x_loc, y_loc) > 200 && dist(companion.x, companion.y, x_loc, y_loc) > 200){
+            monsters.push(new Monster(x_loc, y_loc, spr_archer));
+        }
+    }
+}
+
+function dist(x1, y1, x2, y2){
+    return Math.abs(x1 - x2) + Math.abs(y1 - y2);
 }

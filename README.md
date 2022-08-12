@@ -21,7 +21,7 @@ The Jam will start overnight, but I spent a little time today thinking about wha
 Idea: Vampire Survivors Style w/ Companion
 
 Needs:
-- [ ] player that shoots projectiles
+- [x] player that shoots projectiles
 - [ ] companion that shoots projectiles (controlled by AI)
 - [ ] enemies that spawn and pursue the player and companion
 - [ ] projectiles kill enemies and add score for player + companion
