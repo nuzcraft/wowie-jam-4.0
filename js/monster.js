@@ -7,10 +7,19 @@ class Monster{
         this.vXLeft = 0;
         this.vYUp = 0;
         this.vYDown = 0;
+        this.fireRate = 30;
     }
 
     draw(){
         drawSprite(this.spriteIndex, this.x, this.y);
+    }
+
+    update(){
+        this.move();
+
+        if (frameCount % this.fireRate == 0){
+            this.shoot();
+        }
     }
 
     move(){
@@ -35,4 +44,5 @@ class Monster{
             ))
         }
     }
+
 }

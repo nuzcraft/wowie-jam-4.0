@@ -8,6 +8,8 @@ const spr_yellow_ball_3 = 4;
 
 let projectiles = [];
 
+let frameCount = 0;
+
 function setupCanvas(){
     canvas = document.querySelector("canvas");
     ctx = canvas.getContext("2d");
@@ -27,17 +29,18 @@ function startGame() {
 function tick(){
     draw();
 
-    player.move();
+    player.update();
+    companion.update();
 
-    companion.move();
-
-    projectiles.forEach((projectile) => projectile.move());
+    projectiles.forEach((projectile) => projectile.update());
 
     for (let i = projectiles.length - 1; i>= 0; i--){
         if (projectiles[i].dead){
             projectiles.splice(i, 1);
         }
     }
+
+    frameCount += 1;
 }
 
 function draw(){

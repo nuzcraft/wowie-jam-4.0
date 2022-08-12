@@ -14,15 +14,18 @@ class Projectile{
         drawFXSpriteSmall(this.spriteIndex, this.x, this.y)
     }
 
+    update(){
+        this.move();
+        if (this.distFromOrig() >= this.distance){
+            this.dead = true;
+        }
+    }
+
     move(){
         let dx = this.direction[0] * this.speed;
         let dy = this.direction[1] * this.speed;
         this.x += dx;
         this.y += dy;
-
-        if (this.distFromOrig() >= this.distance){
-            this.dead = true;
-        }
     }
 
     distFromOrig(){
