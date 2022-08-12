@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<title>Wowie Jam Game</title>
+<style>
+    canvas{
+        outline: 1px solid whitesmoke;
+    }
+    body {
+        background-color: navy;
+        text-align: center;
+        margin-top: 50px;
+    }
+</style>
+<canvas></canvas>
+<script src="js/game.js"></script>
+<script>
+    spritesheet_creatures = new Image();
+    spritesheet_creatures.src = "images/oryx_16bit_fantasy_creatures_trans.png";
+
+    setInterval(tick, 15);
+
+    setupCanvas();
+</script>
