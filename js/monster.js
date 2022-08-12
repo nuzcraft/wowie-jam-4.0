@@ -3,23 +3,20 @@ class Monster{
         this.x = x;
         this.y = y;
         this.spriteIndex = spriteIndex;
-        this.dx = 0;
-        this.dy = 0;
+        this.vXRight = 0;
+        this.vXLeft = 0;
+        this.vYUp = 0;
+        this.vYDown = 0;
     }
 
     draw(){
         drawSprite(this.spriteIndex, this.x, this.y);
     }
 
-    setMove(dx, dy){
-        this.dx += dx;
-        this.dy += dy;
-    }
-
     move(){
-        this.x += this.dx;
-        this.y += this.dy;
-        this.dx -= this.dx;
-        this.dy -= this.dy;
+        this.x += this.vXRight;
+        this.x += this.vXLeft;
+        this.y += this.vYUp;
+        this.y += this.vYDown
     }
 }
