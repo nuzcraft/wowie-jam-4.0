@@ -13,9 +13,13 @@
 <canvas></canvas>
 <script src="js/game.js"></script>
 <script src="js/monster.js"></script>
+<script src="js/projectile.js"></script>
 <script>
     spritesheet_creatures = new Image();
     spritesheet_creatures.src = "images/oryx_16bit_fantasy_creatures_trans.png";
+
+    spritesheet_fx = new Image();
+    spritesheet_fx.src = "images/oryx_16bit_fantasy_fx_trans.png";
 
     startGame();
 
@@ -24,6 +28,8 @@
         if (e.key == "s") player.vYDown = 5;
         if (e.key == "a") player.vXLeft = -5;
         if (e.key == "d") player.vXRight = 5;
+
+        if (e.key == "p") player.shoot(); // debugging only
     }
 
     document.querySelector("html").onkeyup = function(e){

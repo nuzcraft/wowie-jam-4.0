@@ -19,4 +19,20 @@ class Monster{
         this.y += this.vYUp;
         this.y += this.vYDown
     }
+
+    shoot(){
+        let dirs = [[0, -1], [0, 1], [-1, 0], [1, 0],
+                    [1, -1], [1, 1], [-1, 1], [-1, -1]];
+
+        for (let i=0; i<dirs.length; i++){
+            projectiles.push(new Projectile(
+                this.x + (dirs[i][0]*24),
+                this.y + (dirs[i][1]* 24),
+                spr_yellow_ball_1,
+                dirs[i],
+                7,
+                200,
+            ))
+        }
+    }
 }

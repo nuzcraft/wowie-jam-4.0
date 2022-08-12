@@ -2,6 +2,12 @@ const spr_fighter = 0;
 const spr_rogue = 1;
 const spr_archer = 2;
 
+const spr_yellow_ball_1 = 2;
+const spr_yellow_ball_2 = 3;
+const spr_yellow_ball_3 = 4;
+
+let projectiles = [];
+
 function setupCanvas(){
     canvas = document.querySelector("canvas");
     ctx = canvas.getContext("2d");
@@ -24,6 +30,14 @@ function tick(){
     player.move();
 
     companion.move();
+
+    projectiles.forEach((projectile) => projectile.move());
+
+    for (let i = projectiles.length - 1; i>= 0; i--){
+        if (projectiles[i].dead){
+            projectiles.splice(i, 1);
+        }
+    }
 }
 
 function draw(){
@@ -34,11 +48,18 @@ function draw(){
 
     // draw companion
     companion.draw();
+
+    projectiles.forEach((projectile) => projectile.draw());
 }
 
 function drawSprite(spriteIndex, x, y){
-    [sprshtX, sprshtY] = getLocationOnSpritesheet(spriteIndex);
+    let [sprshtX, sprshtY] = getLocationOnSpritesheet(spriteIndex);
     ctx.drawImage(spritesheet_creatures, sprshtX, sprshtY, 24, 24, x, y, 64, 64);
+}
+
+function drawFXSpriteSmall(spriteIndex, x, y){
+    let [sprshtX, sprshtY] = getLocationOnFXSpritesheetSmall(spriteIndex);
+    ctx.drawImage(spritesheet_fx, sprshtX, sprshtY, 24, 24, x, y, 64, 64);
 }
 
 function getLocationOnSpritesheet(spriteIndex){
@@ -47,6 +68,16 @@ function getLocationOnSpritesheet(spriteIndex){
     let tile_width = 24;
     let x_loc = (spriteIndex % 18) * tile_width;
     let y_loc = Math.floor(spriteIndex / 18) * tile_width;
+
+    return [x_loc + x_offset, y_loc + y_offset];
+}
+
+function getLocationOnFXSpritesheetSmall(spriteIndex){
+    let x_offset = 24;
+    let y_offset = 24;
+    let tile_width = 24;
+    let x_loc = (spriteIndex % 10) * tile_width;
+    let y_loc = Math.floor(spriteIndex / 10) * tile_width;
 
     return [x_loc + x_offset, y_loc + y_offset];
 }
