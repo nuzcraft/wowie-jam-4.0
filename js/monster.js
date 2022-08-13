@@ -9,6 +9,7 @@ class Monster{
         this.vYDown = 0;
         this.fireRate = 0;
         this.speed = .5;
+        this.hp = 1;
     }
 
     draw(){
@@ -40,19 +41,24 @@ class Monster{
         if(!this.isCompanion && !this.isPlayer){
             if (this.dist(companion) < this.dist(player)){
                 let dir = this.direction(companion);
-                // console.log(dir);
                 this.vXLeft = dir[0] * this.speed;
                 this.vYDown = dir[1] * this.speed;
             } else {
                 let dir = this.direction(player);
-                // console.log(dir);
                 this.vXLeft = dir[0] * this.speed;
                 this.vYDown = dir[1] * this.speed;
             }
-            // console.log(this.vXLeft, this.vYDown)
         }
 
         this.move();
+
+        if (this.hp <= 0){
+            this.dead = true;
+        }
+
+        if(!this.isCompanion && !this.isPlayer){
+            this.killPlayerAndCompanion();
+        }
 
         if (frameCount % this.fireRate == 0){
             this.shoot();
@@ -66,9 +72,25 @@ class Monster{
         this.y += this.vYDown
     }
 
+    killPlayerAndCompanion(){
+        if (this.dist(player) < 32 || this.dist(companion) < 32){
+            player.dead = true;
+            player.fireRate = 0;
+            companion.dead = true;
+            companion.fireRate = 0;
+        }
+    }
+
     shoot(){
         let dirs = [[0, -1], [0, 1], [-1, 0], [1, 0],
                     [1, -1], [1, 1], [-1, 1], [-1, -1]];
+
+        let owner = "monster";
+        if (this.isPlayer){
+            owner = "player";
+        } else if (this.isCompanion){
+            owner = "companion";
+        }
 
         for (let i=0; i<dirs.length; i++){
             projectiles.push(new Projectile(
@@ -78,6 +100,7 @@ class Monster{
                 dirs[i],
                 7,
                 200,
+                owner,
             ))
         }
     }
