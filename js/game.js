@@ -161,5 +161,26 @@ function getScores() {
   }
 
 function addScore(score){
+    let scores = getScores();
+    let scoreObject = {score: score};
+    scores.push(scoreObject);
+    localStorage["scores"] = JSON.stringify(scores);
+}
+
+function drawScoresTitle(){
+    let scores = getScores();
+    if (scores.length){
+        drawText("SCORE", 18, true, canvas.height / 2, "white")
+    };
     
+    let newestScore = scores.pop();
+    scores.sort(function(a, b){
+        return b.score - a.score
+    });
+    scores.unshift(newestScore);
+
+    for (let i=0; i<Math.min(10, scores.length); i++){
+        drawText(scores[i].score, 18, true, canvas.height / 2 + 24 + i*24,
+        i==0? "yellow": "grey");
+    }
 }
