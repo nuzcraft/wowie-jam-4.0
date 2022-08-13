@@ -111,7 +111,7 @@ class Player extends Monster{
     constructor(x, y){
         super(x, y, spr_fighter);
         this.isPlayer = true;
-        this.fireRate = 60;
+        this.fireRate = 120;
         this.speed = 5;
     }
 }
@@ -120,7 +120,59 @@ class Companion extends Monster{
     constructor(x, y){
         super(x, y, spr_rogue);
         this.isCompanion = true;
-        this.fireRate = 60;
+        this.fireRate = 120;
         this.speed = 5;
+    }
+
+    update(){
+
+    //     // if(!this.isCompanion && !this.isPlayer){
+    //     //     if (this.dist(companion) < this.dist(player)){
+    //     //         let dir = this.direction(companion);
+    //     //         this.vXLeft = dir[0] * this.speed;
+    //     //         this.vYDown = dir[1] * this.speed;
+    //     //     } else {
+    //     //         let dir = this.direction(player);
+    //     //         this.vXLeft = dir[0] * this.speed;
+    //     //         this.vYDown = dir[1] * this.speed;
+    //     //     }
+    //     // }
+        
+        let dirs = [];
+        for (let i = monsters.length - 1; i>= 0; i--){
+            if (this.dist(monsters[i]) < 250){
+                dirs.push(monsters[i].direction(this));
+                dirs.push(monsters[i].direction(this));
+            }
+        }
+
+        if (this.dist(player) > 300){
+            dirs.push(this.direction(player))
+        }
+        
+        
+        let dirX = 0;
+        let dirY = 0;
+        for (let i=0; i<dirs.length; i++){
+            dirX += dirs[i][0];
+            dirY += dirs[i][1]
+        }
+        if(dirs.length > 0) {
+            dirX = dirX/dirs.length;
+            dirY = dirY/dirs.length;
+        }
+        
+        this.vXLeft = dirX * this.speed;
+        this.vYDown = dirY * this.speed;
+
+        this.move();
+
+        if (this.hp <= 0){
+            this.dead = true;
+        }
+
+        if (frameCount % this.fireRate == 0){
+            this.shoot();
+        }
     }
 }

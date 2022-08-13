@@ -39,3 +39,11 @@ Stretch:
 - player progression (new projectiles/speed as score goes up?)
 - enemy progression (increased spawn rates or speed as score goes up?)
 - optional randomization of player/companion/enemy/world/projectile sprites
+
+### Companion AI workshop
+
+1. The AI needs to "collaborate" with us.
+2. We can only control the AI movement direction
+3. the AI wants to get away from the enemies
+4. the AI wants to get closer to the player
+5. the AI wants to get closer to the middle of the screen
