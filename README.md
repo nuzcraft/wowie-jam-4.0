@@ -23,7 +23,7 @@ Idea: Vampire Survivors Style w/ Companion
 Needs:
 - [x] player that shoots projectiles
 - [x] companion that shoots projectiles
-- [ ] companion controlled by ai
+- [x] companion controlled by ai
 - [x] enemies that spawn and pursue the player and companion
 - [x] projectiles kill enemies
 - [x] killed enemies add score for player + companion
