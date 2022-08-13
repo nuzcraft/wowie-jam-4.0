@@ -23,7 +23,7 @@ Idea: Vampire Survivors Style w/ Companion
 Needs:
 - [x] player that shoots projectiles
 - [x] companion that shoots projectiles
-- [ ] companion controlled by ai
+- [x] companion controlled by ai
 - [x] enemies that spawn and pursue the player and companion
 - [x] projectiles kill enemies
 - [x] killed enemies add score for player + companion
@@ -39,3 +39,11 @@ Stretch:
 - player progression (new projectiles/speed as score goes up?)
 - enemy progression (increased spawn rates or speed as score goes up?)
 - optional randomization of player/companion/enemy/world/projectile sprites
+
+### Companion AI workshop
+
+1. The AI needs to "collaborate" with us.
+2. We can only control the AI movement direction
+3. the AI wants to get away from the enemies
+4. the AI wants to get closer to the player
+5. the AI wants to get closer to the middle of the screen
