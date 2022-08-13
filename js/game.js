@@ -151,3 +151,15 @@ function drawScores(){
     drawText("Player score: " + playerScore, 20, false, 30, "red", 10);
     drawText("Companion score: " + companionScore, 20, false, 50, "red", 10);
 }
+
+function getScores() {
+    if (localStorage["scores"]) {
+      return JSON.parse(localStorage["scores"]);
+    } else {
+      return [];
+    }
+  }
+
+function addScore(score){
+    
+}
