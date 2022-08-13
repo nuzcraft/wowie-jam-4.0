@@ -1,5 +1,5 @@
 class Projectile{
-    constructor(x, y, spriteIndex, direction, speed, distance){
+    constructor(x, y, spriteIndex, direction, speed, distance, owner){
         this.x = x;
         this.origX = x;
         this.y = y;
@@ -8,6 +8,7 @@ class Projectile{
         this.direction = direction;
         this.speed = speed;
         this.distance = distance;
+        this.owner = owner;
     }
 
     draw(){
@@ -18,6 +19,24 @@ class Projectile{
         this.move();
         if (this.distFromOrig() >= this.distance){
             this.dead = true;
+        }
+
+        for (let i = monsters.length - 1; i>= 0; i--){
+            if (monsters[i].dist(this) < 64 && !this.dead){
+                monsters[i].hp -= 1;
+                if (monsters[i].hp <= 0){
+                    this.score();
+                }
+                this.dead = true;
+            }
+        }
+    }
+
+    score(){
+        if(this.owner == "player"){
+            playerScore += 100;
+        } else if (this.owner == "companion"){
+            companionScore += 100;
         }
     }
 
