@@ -1,6 +1,14 @@
 const spr_fighter = 0;
 const spr_rogue = 1;
 const spr_archer = 2;
+const spr_red_wizard = 3;
+const spr_white_priest = 4;
+const spr_purple_wizard = 12;
+const spr_red_priest = 13;
+const spr_golem_skeleton = 212;
+const spr_zombie = 288;
+const spr_mummy = 295;
+const spr_spectre = 297;
 
 const spr_yellow_ball_1 = 2;
 const spr_yellow_ball_2 = 3;
@@ -135,7 +143,7 @@ function spawnMonsters(){
         let x_loc = Math.random() * canvas.width;
         let y_loc = Math.random() * canvas.height;
         if (dist(player.x, player.y, x_loc, y_loc) > 200 && dist(companion.x, companion.y, x_loc, y_loc) > 200){
-            monsters.push(new Monster(x_loc, y_loc, spr_archer));
+            monsters.push(new Zombie(x_loc, y_loc));
         }
     }
 }

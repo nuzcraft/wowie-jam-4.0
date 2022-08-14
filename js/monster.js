@@ -248,7 +248,7 @@ class Monster{
                 this.fireRate = 40;
             } else if (this.level == 3 && playerScore >= 5000){
                 this.level = 4;
-                this.fireRate = 120;
+                this.fireRate = 100;
             } else if (this.level == 4 && playerScore >= 10000){
                 this.level = 5;
                 this.fireRate = 60;
@@ -263,7 +263,7 @@ class Monster{
                     this.fireRate = 80;
                 } else if (this.level == 3 && companionScore >= 5000){
                     this.level = 4;
-                    this.fireRate = 120;
+                    this.fireRate = 100;
                 } else if (this.level == 4 && playerScore >= 10000){
                     this.level = 5;
                     this.fireRate = 60;
@@ -298,7 +298,7 @@ class Monster{
 
 class Player extends Monster{
     constructor(x, y){
-        super(x, y, spr_fighter);
+        super(x, y, spr_red_wizard);
         this.isPlayer = true;
         this.fireRate = 200;
         this.speed = 5;
@@ -308,7 +308,7 @@ class Player extends Monster{
 
 class Companion extends Monster{
     constructor(x, y){
-        super(x, y, spr_rogue);
+        super(x, y, spr_purple_wizard);
         this.isCompanion = true;
         this.fireRate = 200;
         this.speed = 5;
@@ -369,5 +369,26 @@ class Companion extends Monster{
         }
 
         this.levelUp();
+    }
+}
+
+class Zombie extends Monster{
+    constructor(x, y){
+        super(x, y, spr_zombie);
+    }
+}
+
+class Mummy extends Monster{
+    constructor(x, y){
+        super(x, y, spr_mummy);
+        this.speed = 1.5;
+    }
+}
+
+class GolemSkeleton extends Monster{
+    constructor(x, y){
+        super(x, y, spr_golem_skeleton);
+        this.speed = .3;
+        this.hp = 3;
     }
 }
