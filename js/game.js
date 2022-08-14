@@ -111,6 +111,11 @@ function drawSprite(spriteIndex, x, y){
     ctx.drawImage(spritesheet_creatures, sprshtX, sprshtY, 24, 24, x + shakeX, y + shakeY, 64, 64);
 }
 
+function drawSpriteFlipped(spriteIndex, x, y){
+    let [sprshtX, sprshtY] = getLocationOnSpritesheetFlipped(spriteIndex);
+    ctx.drawImage(spritesheet_creatures_flipped, sprshtX, sprshtY, 24, 24, x + shakeX, y + shakeY, 64, 64);
+}
+
 function drawFXSpriteSmall(spriteIndex, x, y){
     let [sprshtX, sprshtY] = getLocationOnFXSpritesheetSmall(spriteIndex);
     ctx.drawImage(spritesheet_fx, sprshtX, sprshtY, 24, 24, x + shakeX, y + shakeY, 64, 64);
@@ -121,6 +126,17 @@ function getLocationOnSpritesheet(spriteIndex){
     let y_offset = 24;
     let tile_width = 24;
     let x_loc = (spriteIndex % 18) * tile_width;
+    let y_loc = Math.floor(spriteIndex / 18) * tile_width;
+
+    return [x_loc + x_offset, y_loc + y_offset];
+}
+
+function getLocationOnSpritesheetFlipped(spriteIndex){
+    let x_offset = 24;
+    let y_offset = 24;
+    let tile_width = 24;
+
+    let x_loc = (17*tile_width) - (spriteIndex % 18) * tile_width;
     let y_loc = Math.floor(spriteIndex / 18) * tile_width;
 
     return [x_loc + x_offset, y_loc + y_offset];

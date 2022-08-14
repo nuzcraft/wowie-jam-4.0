@@ -12,10 +12,19 @@ class Monster{
         this.hp = 1;
         this.level = 0;
         this.shootNumber = 1;
+        this.facing = "right"
     }
 
     draw(){
-        drawSprite(this.spriteIndex, this.x, this.y);
+        let animation = 0;
+        if (frameCount % 50 > 25){
+            animation = 18;
+        }
+        if (this.facing == "right"){
+            drawSpriteFlipped(this.spriteIndex + animation, this.x, this.y);
+        } else {
+            drawSprite(this.spriteIndex + animation, this.x, this.y);
+        }
     }
 
     dist(other){
@@ -76,6 +85,12 @@ class Monster{
         this.x += this.vXLeft;
         this.y += this.vYUp;
         this.y += this.vYDown
+
+        if (this.vXRight + this.vXLeft > 0.2){
+            this.facing = "right";
+        } else if (this.vXRight + this.vXLeft < -0.2){
+            this.facing = "left";
+        }
     }
 
     killPlayerAndCompanion(){
