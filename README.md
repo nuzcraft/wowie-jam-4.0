@@ -31,13 +31,17 @@ Needs:
 - [x] high score is stored
 - [ ] sound effects
 - [x] screenshake
-- [ ] player progression (new projectiles/speed as score goes up?)
+- [x] player progression (new projectiles/speed as score goes up?)
+- [x] enemy progression (increased spawn rates or speed as score goes up?)
+- [ ] varied enemies (with projectiles?)
+- [ ] background tiles
+- [ ] character sprites that make sense (wizards I guess)
+- [ ] character sprites that flip horizontally based on velocity
 
 Stretch: 
 - fancy effects
 - more music + sound effects
 - varied enemies (with projectiles?)
-- enemy progression (increased spawn rates or speed as score goes up?)
 - optional randomization of player/companion/enemy/world/projectile sprites
 
 ### Companion AI workshop

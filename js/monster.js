@@ -12,10 +12,19 @@ class Monster{
         this.hp = 1;
         this.level = 0;
         this.shootNumber = 1;
+        this.facing = "right"
     }
 
     draw(){
-        drawSprite(this.spriteIndex, this.x, this.y);
+        let animation = 0;
+        if (frameCount % 50 > 25){
+            animation = 18;
+        }
+        if (this.facing == "right"){
+            drawSpriteFlipped(this.spriteIndex + animation, this.x, this.y);
+        } else {
+            drawSprite(this.spriteIndex + animation, this.x, this.y);
+        }
     }
 
     dist(other){
@@ -76,6 +85,12 @@ class Monster{
         this.x += this.vXLeft;
         this.y += this.vYUp;
         this.y += this.vYDown
+
+        if (this.vXRight + this.vXLeft > 0.2){
+            this.facing = "right";
+        } else if (this.vXRight + this.vXLeft < -0.2){
+            this.facing = "left";
+        }
     }
 
     killPlayerAndCompanion(){
@@ -105,10 +120,12 @@ class Monster{
         let dirs = [[0, -1], [0, 1], [-1, 0], [1, 0]];
 
         let owner = "monster";
+        let bonus = 0;
         if (this.isPlayer){
         owner = "player";
         } else if (this.isCompanion){
         owner = "companion";
+        bonus = 50;
         }
 
         for (let i=0; i<dirs.length; i++){
@@ -118,7 +135,7 @@ class Monster{
             spr_fireball_1 + this.getSpriteIncrement(dirs[i]),
             dirs[i],
             4,
-            150,
+            150 + bonus,
             owner,
         ))
         }
@@ -126,17 +143,18 @@ class Monster{
 
     shootLevel2(){
         let dirs = [[0, -1], [0, 1], [-1, 0], [1, 0]];
-        console.log(this.shootNumber)
         if (this.shootNumber%2 ==0 ){
             dirs = [[1, -1], [1, 1], [-1, 1], [-1, -1]]
         }
         // let dirs = [[1, -1], [1, 1], [-1, 1], [-1, -1]]
 
         let owner = "monster";
+        let bonus = 0;
         if (this.isPlayer){
         owner = "player";
         } else if (this.isCompanion){
         owner = "companion";
+        bonus = 50;
         }
 
         for (let i=0; i<dirs.length; i++){
@@ -146,7 +164,7 @@ class Monster{
             spr_fireball_blue_1 + this.getSpriteIncrement(dirs[i]),
             dirs[i],
             6,
-            175,
+            175 + bonus,
             owner,
         ))
         }
@@ -154,7 +172,6 @@ class Monster{
 
     shootLevel3(){
         let dirs = [[0, -1], [0, 1]];
-        console.log(this.shootNumber)
         if (this.shootNumber%3 == 2 ){
             dirs = [[1, -1], [1, 1], [-1, 1], [-1, -1]]
         } else if (this.shootNumber%3 == 1) {
@@ -163,10 +180,12 @@ class Monster{
         // let dirs = [[1, -1], [1, 1], [-1, 1], [-1, -1]]
 
         let owner = "monster";
+        let companion_distance_bonus = 0;
         if (this.isPlayer){
         owner = "player";
         } else if (this.isCompanion){
         owner = "companion";
+        companion_distance_bonus = 50;
         }
 
         for (let i=0; i<dirs.length; i++){
@@ -176,7 +195,7 @@ class Monster{
             spr_fireball_sparkle_1 + this.getSpriteIncrement(dirs[i]),
             dirs[i],
             7,
-            200,
+            200 + companion_distance_bonus,
             owner,
         ))
         }
@@ -187,10 +206,12 @@ class Monster{
         [1, -1], [1, 1], [-1, 1], [-1, -1]];
 
         let owner = "monster";
+        let bonus = 0;
         if (this.isPlayer){
         owner = "player";
         } else if (this.isCompanion){
         owner = "companion";
+        bonus = 50;
         }
 
         for (let i=0; i<dirs.length; i++){
@@ -200,7 +221,7 @@ class Monster{
             spr_fireball_purple_1 + this.getSpriteIncrement(dirs[i]),
             dirs[i],
             7,
-            200,
+            200 + bonus,
             owner,
         ))
         }
@@ -211,10 +232,12 @@ class Monster{
         [1, -1], [1, 1], [-1, 1], [-1, -1]];
 
         let owner = "monster";
+        let bonus = 0;
         if (this.isPlayer){
         owner = "player";
         } else if (this.isCompanion){
         owner = "companion";
+        bonus = 50;
         }
 
         for (let i=0; i<dirs.length; i++){
@@ -224,7 +247,7 @@ class Monster{
             spr_fireball_meteor_1 + this.getSpriteIncrement(dirs[i]),
             dirs[i],
             10,
-            250,
+            250 + bonus,
             owner,
         ))
         }
@@ -240,7 +263,7 @@ class Monster{
                 this.fireRate = 40;
             } else if (this.level == 3 && playerScore >= 5000){
                 this.level = 4;
-                this.fireRate = 120;
+                this.fireRate = 100;
             } else if (this.level == 4 && playerScore >= 10000){
                 this.level = 5;
                 this.fireRate = 60;
@@ -255,7 +278,7 @@ class Monster{
                     this.fireRate = 80;
                 } else if (this.level == 3 && companionScore >= 5000){
                     this.level = 4;
-                    this.fireRate = 120;
+                    this.fireRate = 100;
                 } else if (this.level == 4 && playerScore >= 10000){
                     this.level = 5;
                     this.fireRate = 60;
@@ -290,7 +313,7 @@ class Monster{
 
 class Player extends Monster{
     constructor(x, y){
-        super(x, y, spr_fighter);
+        super(x, y, spr_red_wizard);
         this.isPlayer = true;
         this.fireRate = 200;
         this.speed = 5;
@@ -300,7 +323,7 @@ class Player extends Monster{
 
 class Companion extends Monster{
     constructor(x, y){
-        super(x, y, spr_rogue);
+        super(x, y, spr_purple_wizard);
         this.isCompanion = true;
         this.fireRate = 200;
         this.speed = 5;
@@ -361,5 +384,26 @@ class Companion extends Monster{
         }
 
         this.levelUp();
+    }
+}
+
+class Zombie extends Monster{
+    constructor(x, y){
+        super(x, y, spr_zombie);
+    }
+}
+
+class Mummy extends Monster{
+    constructor(x, y){
+        super(x, y, spr_mummy);
+        this.speed = 1.5;
+    }
+}
+
+class GolemSkeleton extends Monster{
+    constructor(x, y){
+        super(x, y, spr_golem_skeleton);
+        this.speed = .3;
+        this.hp = 3;
     }
 }
