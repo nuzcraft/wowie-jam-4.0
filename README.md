@@ -28,7 +28,7 @@ Needs:
 - [x] projectiles kill enemies
 - [x] killed enemies add score for player + companion
 - [x] enemies kill player, end the game
-- [ ] high score is stored
+- [x] high score is stored
 - [ ] sound effects
 - [ ] screenshake
 
@@ -47,3 +47,8 @@ Stretch:
 3. the AI wants to get away from the enemies
 4. the AI wants to get closer to the player
 5. the AI wants to get closer to the middle of the screen
+
+# End of Day1
+Total Dev Time: ~4.5 hours
+
+At the end of day 1, the project has a player, companion, and enemies. The player and companion can shoot projectiles that defeat enemies and raise the score. The enemies move towards the player and companion and defeat them. The companion tries to avoid the enemies and remain close to the player.

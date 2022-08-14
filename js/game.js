@@ -30,36 +30,40 @@ function startGame() {
     monsters = [];
     playerScore = 0;
     companionScore = 0;
+    gameState = "running";
 }
 
 function tick(){
     draw();
 
-    player.update();
-    companion.update();
-
-    monsters.forEach((monster) => monster.update());
-
-    projectiles.forEach((projectile) => projectile.update());
-
-    for (let i = projectiles.length - 1; i>= 0; i--){
-        if (projectiles[i].dead){
-            projectiles.splice(i, 1);
+    if (gameState == "running"){
+        player.update();
+        companion.update();
+    
+        monsters.forEach((monster) => monster.update());
+    
+        projectiles.forEach((projectile) => projectile.update());
+    
+        for (let i = projectiles.length - 1; i>= 0; i--){
+            if (projectiles[i].dead){
+                projectiles.splice(i, 1);
+            }
         }
-    }
-
-    for (let i = monsters.length - 1; i>= 0; i--){
-        if (monsters[i].dead){
-            monsters.splice(i, 1);
+    
+        for (let i = monsters.length - 1; i>= 0; i--){
+            if (monsters[i].dead){
+                monsters.splice(i, 1);
+            }
         }
+    
+        if (player.dead || companion.dead){
+            gameState = "dead";
+            addScore(playerScore + companionScore);
+        }
+    
+    
+        spawnMonsters();
     }
-
-    if (player.dead || companion.dead){
-        showLoseScreen();
-    }
-
-
-    spawnMonsters();
 
     frameCount += 1;
 }
@@ -75,6 +79,10 @@ function draw(){
     player.draw();
 
     drawScores();
+
+    if (gameState == "dead"){
+        showLoseScreen();
+    }
 }
 
 function drawSprite(spriteIndex, x, y){
@@ -139,15 +147,49 @@ function showLoseScreen(){
     drawText("One of you has", 60, true, canvas.height / 2 - 150, "red");
     drawText("died to the horde.", 60, true, canvas.height / 2 - 90, "red");
     
-    drawText("Player score: " + playerScore, 30, true, canvas.height / 2, "red");
-    drawText("Companion score: " + companionScore, 30, true, canvas.height / 2 + 30, "red");
-    let totalScore = playerScore + companionScore;
-    drawText("Total score: " + totalScore, 30, true, canvas.height / 2 + 60, "red")
+    drawText("Player score: " + playerScore, 30, true, canvas.height / 2 - 60, "red");
+    drawText("Companion score: " + companionScore, 30, true, canvas.height / 2 - 30, "red");
+    // let totalScore = playerScore + companionScore;
+    // drawText("Total score: " + totalScore, 30, true, canvas.height / 2 + 60, "red")
+    drawScoresTitle();
 
-    drawText("press r to restart", 30, true, canvas.height / 2 + 150, "grey");
+    drawText("press r to restart", 30, true, canvas.height - 50, "grey");
 }
 
 function drawScores(){
     drawText("Player score: " + playerScore, 20, false, 30, "red", 10);
     drawText("Companion score: " + companionScore, 20, false, 50, "red", 10);
+}
+
+function getScores() {
+    if (localStorage["scores"]) {
+      return JSON.parse(localStorage["scores"]);
+    } else {
+      return [];
+    }
+  }
+
+function addScore(score){
+    let scores = getScores();
+    let scoreObject = {score: score};
+    scores.push(scoreObject);
+    localStorage["scores"] = JSON.stringify(scores);
+}
+
+function drawScoresTitle(){
+    let scores = getScores();
+    if (scores.length){
+        drawText("TOTAL SCORE", 18, true, canvas.height / 2, "white")
+    };
+    
+    let newestScore = scores.pop();
+    scores.sort(function(a, b){
+        return b.score - a.score
+    });
+    scores.unshift(newestScore);
+
+    for (let i=0; i<Math.min(6, scores.length); i++){
+        drawText(scores[i].score, 18, true, canvas.height / 2 + 24 + i*24,
+        i==0? "yellow": "grey");
+    }
 }

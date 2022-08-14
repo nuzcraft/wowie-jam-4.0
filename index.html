@@ -24,21 +24,29 @@
     startGame();
 
     document.querySelector("html").onkeydown = function(e){
-        if (e.key == "w") player.vYUp = -player.speed;
-        if (e.key == "s") player.vYDown = player.speed;
-        if (e.key == "a") player.vXLeft = -player.speed;
-        if (e.key == "d") player.vXRight = player.speed;
+        if(gameState == "running"){
+            if (e.key == "w") player.vYUp = -player.speed;
+            if (e.key == "s") player.vYDown = player.speed;
+            if (e.key == "a") player.vXLeft = -player.speed;
+            if (e.key == "d") player.vXRight = player.speed;
 
-        if (e.key == "r") startGame();
+            if (e.key == "r") startGame();
+        }
+
+        if(gameState == "dead"){
+            if (e.key == "r") startGame();
+        }
 
         // if (e.key == "p") player.shoot(); // debugging only
     }
 
     document.querySelector("html").onkeyup = function(e){
-        if (e.key == "w") player.vYUp = 0;
-        if (e.key == "s") player.vYDown = 0;
-        if (e.key == "a") player.vXLeft = 0;
-        if (e.key == "d") player.vXRight = 0;
+        if (gameState == "running"){
+            if (e.key == "w") player.vYUp = 0;
+            if (e.key == "s") player.vYDown = 0;
+            if (e.key == "a") player.vXLeft = 0;
+            if (e.key == "d") player.vXRight = 0;
+        }
     }
 
     setInterval(tick, 10); // ~6 frames per sec
