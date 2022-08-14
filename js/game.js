@@ -22,8 +22,20 @@ const spr_fireball_green_1 = 160;
 const spr_fireball_sparkle_1 = 170;
 const spr_fireball_meteor_1 = 180;
 
+const spr_bushes_1 = 35;
+const spr_bushes_2 = 36;
+const spr_bushes_3 = 37;
+const spr_flowers_1 = 88;
+const spr_flowers_2 = 89;
+const spr_flowers_3 = 90;
+const spr_grass = 688;
+const spr_grass_dirt_1 = 699;
+const spr_grass_dirt_2 = 700;
+const spr_grass_dirt_3 = 701;
+
 var projectiles = [];
 var monsters = [];
+var tiles = [];
 var maxNumMonsters = 3;
 
 var frameCount = 0;
@@ -91,6 +103,8 @@ function draw() {
 
   screenshake();
 
+  drawTiles();
+
   monsters.forEach((monster) => monster.draw());
 
   projectiles.forEach((projectile) => projectile.draw());
@@ -150,6 +164,21 @@ function drawFXSpriteSmall(spriteIndex, x, y) {
   );
 }
 
+function drawWorldSprite(spriteIndex, x, y) {
+  let [sprshtX, sprshtY] = getLocationOnWorldSpritesheet(spriteIndex);
+  ctx.drawImage(
+    spritesheet_world,
+    sprshtX,
+    sprshtY,
+    24,
+    24,
+    x + shakeX,
+    y + shakeY,
+    64,
+    64
+  );
+}
+
 function getLocationOnSpritesheet(spriteIndex) {
   let x_offset = 24;
   let y_offset = 24;
@@ -177,6 +206,16 @@ function getLocationOnFXSpritesheetSmall(spriteIndex) {
   let tile_width = 24;
   let x_loc = (spriteIndex % 10) * tile_width;
   let y_loc = Math.floor(spriteIndex / 10) * tile_width;
+
+  return [x_loc + x_offset, y_loc + y_offset];
+}
+
+function getLocationOnWorldSpritesheet(spriteIndex) {
+  let x_offset = 24;
+  let y_offset = 24;
+  let tile_width = 24;
+  let x_loc = (spriteIndex % 55) * tile_width;
+  let y_loc = Math.floor(spriteIndex / 55) * tile_width;
 
   return [x_loc + x_offset, y_loc + y_offset];
 }
@@ -356,4 +395,21 @@ function screenshake() {
   let shakeAngle = Math.random() * Math.PI * 2;
   shakeX = Math.round(Math.cos(shakeAngle) * shakeAmount);
   shakeY = Math.round(Math.sin(shakeAngle) * shakeAmount);
+}
+
+function drawTiles() {
+  for (i = 0; i < canvas.width; i += 64) {
+    for (j = 0; j < canvas.height; j += 64) {
+      let rando = Math.random();
+      if (rando < 0.7) {
+        drawWorldSprite(spr_grass, i, j);
+      } else if (rando < 0.8) {
+        drawWorldSprite(spr_grass_dirt_1, i, j);
+      } else if (rando < 0.9) {
+        drawWorldSprite(spr_grass_dirt_2, i, j);
+      } else {
+        drawWorldSprite(spr_grass_dirt_3, i, j);
+      }
+    }
+  }
 }
