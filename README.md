@@ -28,7 +28,7 @@ Needs:
 - [x] projectiles kill enemies
 - [x] killed enemies add score for player + companion
 - [x] enemies kill player, end the game
-- [ ] high score is stored
+- [x] high score is stored
 - [ ] sound effects
 - [ ] screenshake
 
