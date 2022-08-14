@@ -22,6 +22,7 @@ const spr_fireball_green_1 = 160;
 const spr_fireball_sparkle_1 = 170;
 const spr_fireball_meteor_1 = 180;
 
+const spr_bones = 37;
 const spr_bushes_1 = 45;
 const spr_bushes_2 = 46;
 const spr_bushes_3 = 47;
@@ -83,8 +84,12 @@ function tick() {
 
     for (let i = monsters.length - 1; i >= 0; i--) {
       if (monsters[i].dead) {
+        let tile = getTile(monsters[i].x, monsters[i].y);
+        if (tile) {
+          tile.overlayIndex = spr_bones;
+        }
         monsters.splice(i, 1);
-        shakeAmount = 12;
+        shakeAmount = 10;
       }
     }
 
@@ -435,4 +440,16 @@ function genTiles() {
       }
     }
   }
+}
+
+function getTile(x, y) {
+  for (i = 0; i < tiles.length; i++) {
+    if (tiles[i].x <= x && tiles[i].x + 64 > x) {
+      if (tiles[i].y <= y && tiles[i].y + 64 > y) {
+        console.log(tiles[i]);
+        return tiles[i];
+      }
+    }
+  }
+  return null;
 }
