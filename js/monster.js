@@ -10,6 +10,7 @@ class Monster{
         this.fireRate = 0;
         this.speed = .5;
         this.hp = 1;
+        this.level = 0;
     }
 
     draw(){
@@ -63,6 +64,8 @@ class Monster{
         if (frameCount % this.fireRate == 0){
             this.shoot();
         }
+
+        this.levelUp();
     }
 
     move(){
@@ -82,26 +85,57 @@ class Monster{
     }
 
     shoot(){
+        if(this.level==1){
+            this.shootLevel1();
+        }
+    }
+
+    shootLevel1(){
         let dirs = [[0, -1], [0, 1], [-1, 0], [1, 0],
-                    [1, -1], [1, 1], [-1, 1], [-1, -1]];
+        [1, -1], [1, 1], [-1, 1], [-1, -1]];
 
         let owner = "monster";
         if (this.isPlayer){
-            owner = "player";
+        owner = "player";
         } else if (this.isCompanion){
-            owner = "companion";
+        owner = "companion";
         }
 
         for (let i=0; i<dirs.length; i++){
-            projectiles.push(new Projectile(
-                this.x + (dirs[i][0]*24),
-                this.y + (dirs[i][1]* 24),
-                spr_yellow_ball_1,
-                dirs[i],
-                7,
-                200,
-                owner,
-            ))
+        projectiles.push(new Projectile(
+            this.x + (dirs[i][0]*24),
+            this.y + (dirs[i][1]* 24),
+            spr_yellow_ball_1,
+            dirs[i],
+            7,
+            200,
+            owner,
+        ))
+        }
+    }
+
+    levelUp(){
+        if(this.isPlayer){
+            if(this.level==1 && playerScore >= 1000){
+                this.level = 2;
+            } else if (this.level == 2 && playerScore >= 2500){
+                this.level = 3;
+            } else if (this.level == 3 && playerScore >= 5000){
+                this.level = 4;
+            } else if (this.level == 4 && playerScore >= 10000){
+                this.level = 5;
+            }
+        }
+        if (this.isCompanion){
+                if(this.level==1 && companionScore >= 1000){
+                    this.level = 2;
+                } else if (this.level == 2 && companionScore >= 2500){
+                    this.level = 3;
+                } else if (this.level == 3 && companionScore >= 5000){
+                    this.level = 4;
+                } else if (this.level == 4 && playerScore >= 10000){
+                    this.level = 5;
+            }
         }
     }
 
@@ -113,6 +147,7 @@ class Player extends Monster{
         this.isPlayer = true;
         this.fireRate = 120;
         this.speed = 5;
+        this.level = 1;
     }
 }
 
@@ -122,6 +157,7 @@ class Companion extends Monster{
         this.isCompanion = true;
         this.fireRate = 120;
         this.speed = 5;
+        this.level = 1;
     }
 
     update(){
@@ -174,5 +210,7 @@ class Companion extends Monster{
         if (frameCount % this.fireRate == 0){
             this.shoot();
         }
+
+        this.levelUp();
     }
 }

@@ -201,7 +201,6 @@ function drawScoresTitle(){
 
 function screenshake() {
     if (shakeAmount) {
-        console.log(shakeAmount)
       shakeAmount--;
     }
     let shakeAngle = Math.random() * Math.PI * 2;
