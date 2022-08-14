@@ -129,6 +129,8 @@ function getLocationOnFXSpritesheetSmall(spriteIndex){
 }
 
 function spawnMonsters(){
+    maxNumMonsters = Math.max(3, Math.floor((playerScore + companionScore)/100/4));
+
     if (monsters.length < maxNumMonsters){
         let x_loc = Math.random() * canvas.width;
         let y_loc = Math.random() * canvas.height;

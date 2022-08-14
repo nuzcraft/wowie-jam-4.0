@@ -105,10 +105,12 @@ class Monster{
         let dirs = [[0, -1], [0, 1], [-1, 0], [1, 0]];
 
         let owner = "monster";
+        let bonus = 0;
         if (this.isPlayer){
         owner = "player";
         } else if (this.isCompanion){
         owner = "companion";
+        bonus = 50;
         }
 
         for (let i=0; i<dirs.length; i++){
@@ -118,7 +120,7 @@ class Monster{
             spr_fireball_1 + this.getSpriteIncrement(dirs[i]),
             dirs[i],
             4,
-            150,
+            150 + bonus,
             owner,
         ))
         }
@@ -126,17 +128,18 @@ class Monster{
 
     shootLevel2(){
         let dirs = [[0, -1], [0, 1], [-1, 0], [1, 0]];
-        console.log(this.shootNumber)
         if (this.shootNumber%2 ==0 ){
             dirs = [[1, -1], [1, 1], [-1, 1], [-1, -1]]
         }
         // let dirs = [[1, -1], [1, 1], [-1, 1], [-1, -1]]
 
         let owner = "monster";
+        let bonus = 0;
         if (this.isPlayer){
         owner = "player";
         } else if (this.isCompanion){
         owner = "companion";
+        bonus = 50;
         }
 
         for (let i=0; i<dirs.length; i++){
@@ -146,7 +149,7 @@ class Monster{
             spr_fireball_blue_1 + this.getSpriteIncrement(dirs[i]),
             dirs[i],
             6,
-            175,
+            175 + bonus,
             owner,
         ))
         }
@@ -154,7 +157,6 @@ class Monster{
 
     shootLevel3(){
         let dirs = [[0, -1], [0, 1]];
-        console.log(this.shootNumber)
         if (this.shootNumber%3 == 2 ){
             dirs = [[1, -1], [1, 1], [-1, 1], [-1, -1]]
         } else if (this.shootNumber%3 == 1) {
@@ -163,10 +165,12 @@ class Monster{
         // let dirs = [[1, -1], [1, 1], [-1, 1], [-1, -1]]
 
         let owner = "monster";
+        let companion_distance_bonus = 0;
         if (this.isPlayer){
         owner = "player";
         } else if (this.isCompanion){
         owner = "companion";
+        companion_distance_bonus = 50;
         }
 
         for (let i=0; i<dirs.length; i++){
@@ -176,7 +180,7 @@ class Monster{
             spr_fireball_sparkle_1 + this.getSpriteIncrement(dirs[i]),
             dirs[i],
             7,
-            200,
+            200 + companion_distance_bonus,
             owner,
         ))
         }
@@ -187,10 +191,12 @@ class Monster{
         [1, -1], [1, 1], [-1, 1], [-1, -1]];
 
         let owner = "monster";
+        let bonus = 0;
         if (this.isPlayer){
         owner = "player";
         } else if (this.isCompanion){
         owner = "companion";
+        bonus = 50;
         }
 
         for (let i=0; i<dirs.length; i++){
@@ -200,7 +206,7 @@ class Monster{
             spr_fireball_purple_1 + this.getSpriteIncrement(dirs[i]),
             dirs[i],
             7,
-            200,
+            200 + bonus,
             owner,
         ))
         }
@@ -211,10 +217,12 @@ class Monster{
         [1, -1], [1, 1], [-1, 1], [-1, -1]];
 
         let owner = "monster";
+        let bonus = 0;
         if (this.isPlayer){
         owner = "player";
         } else if (this.isCompanion){
         owner = "companion";
+        bonus = 50;
         }
 
         for (let i=0; i<dirs.length; i++){
@@ -224,7 +232,7 @@ class Monster{
             spr_fireball_meteor_1 + this.getSpriteIncrement(dirs[i]),
             dirs[i],
             10,
-            250,
+            250 + bonus,
             owner,
         ))
         }
