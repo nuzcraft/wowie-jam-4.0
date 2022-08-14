@@ -31,6 +31,7 @@ function startGame() {
     playerScore = 0;
     companionScore = 0;
     gameState = "running";
+    shakeAmount = 0;
 }
 
 function tick(){
@@ -53,12 +54,14 @@ function tick(){
         for (let i = monsters.length - 1; i>= 0; i--){
             if (monsters[i].dead){
                 monsters.splice(i, 1);
+                shakeAmount = 12;
             }
         }
     
         if (player.dead || companion.dead){
             gameState = "dead";
             addScore(playerScore + companionScore);
+            shakeAmount = 20;
         }
     
     
@@ -70,6 +73,8 @@ function tick(){
 
 function draw(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    screenshake();
     
     monsters.forEach((monster) => monster.draw());
 
@@ -87,12 +92,12 @@ function draw(){
 
 function drawSprite(spriteIndex, x, y){
     let [sprshtX, sprshtY] = getLocationOnSpritesheet(spriteIndex);
-    ctx.drawImage(spritesheet_creatures, sprshtX, sprshtY, 24, 24, x, y, 64, 64);
+    ctx.drawImage(spritesheet_creatures, sprshtX, sprshtY, 24, 24, x + shakeX, y + shakeY, 64, 64);
 }
 
 function drawFXSpriteSmall(spriteIndex, x, y){
     let [sprshtX, sprshtY] = getLocationOnFXSpritesheetSmall(spriteIndex);
-    ctx.drawImage(spritesheet_fx, sprshtX, sprshtY, 24, 24, x, y, 64, 64);
+    ctx.drawImage(spritesheet_fx, sprshtX, sprshtY, 24, 24, x + shakeX, y + shakeY, 64, 64);
 }
 
 function getLocationOnSpritesheet(spriteIndex){
@@ -193,3 +198,13 @@ function drawScoresTitle(){
         i==0? "yellow": "grey");
     }
 }
+
+function screenshake() {
+    if (shakeAmount) {
+        console.log(shakeAmount)
+      shakeAmount--;
+    }
+    let shakeAngle = Math.random() * Math.PI * 2;
+    shakeX = Math.round(Math.cos(shakeAngle) * shakeAmount);
+    shakeY = Math.round(Math.sin(shakeAngle) * shakeAmount);
+  }

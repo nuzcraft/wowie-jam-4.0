@@ -30,7 +30,7 @@ Needs:
 - [x] enemies kill player, end the game
 - [x] high score is stored
 - [ ] sound effects
-- [ ] screenshake
+- [x] screenshake
 
 Stretch: 
 - fancy effects
