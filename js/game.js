@@ -5,6 +5,14 @@ const spr_archer = 2;
 const spr_yellow_ball_1 = 2;
 const spr_yellow_ball_2 = 3;
 const spr_yellow_ball_3 = 4;
+const spr_fireball_1 = 110;
+const spr_fireball_blue_1 = 120;
+const spr_fireball_white_1 = 130;
+const spr_fireball_purple_1 = 140;
+const spr_fireball_black_1 = 150;
+const spr_fireball_green_1 = 160;
+const spr_fireball_sparkle_1 = 170;
+const spr_fireball_meteor_1 = 180;
 
 var projectiles = [];
 var monsters = [];
@@ -32,9 +40,6 @@ function startGame() {
     companionScore = 0;
     gameState = "running";
     shakeAmount = 0;
-
-    player.level = 2;
-    playerScore = 2300;
 }
 
 function tick(){

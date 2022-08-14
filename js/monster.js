@@ -115,7 +115,7 @@ class Monster{
         projectiles.push(new Projectile(
             this.x + (dirs[i][0]*24),
             this.y + (dirs[i][1]* 24),
-            spr_yellow_ball_1,
+            spr_fireball_1 + this.getSpriteIncrement(dirs[i]),
             dirs[i],
             4,
             150,
@@ -143,7 +143,7 @@ class Monster{
         projectiles.push(new Projectile(
             this.x + (dirs[i][0]*24),
             this.y + (dirs[i][1]* 24),
-            spr_yellow_ball_1,
+            spr_fireball_blue_1 + this.getSpriteIncrement(dirs[i]),
             dirs[i],
             6,
             175,
@@ -173,7 +173,7 @@ class Monster{
         projectiles.push(new Projectile(
             this.x + (dirs[i][0]*24),
             this.y + (dirs[i][1]* 24),
-            spr_yellow_ball_1,
+            spr_fireball_sparkle_1 + this.getSpriteIncrement(dirs[i]),
             dirs[i],
             7,
             200,
@@ -197,7 +197,7 @@ class Monster{
         projectiles.push(new Projectile(
             this.x + (dirs[i][0]*24),
             this.y + (dirs[i][1]* 24),
-            spr_yellow_ball_1,
+            spr_fireball_purple_1 + this.getSpriteIncrement(dirs[i]),
             dirs[i],
             7,
             200,
@@ -221,7 +221,7 @@ class Monster{
         projectiles.push(new Projectile(
             this.x + (dirs[i][0]*24),
             this.y + (dirs[i][1]* 24),
-            spr_yellow_ball_1,
+            spr_fireball_meteor_1 + this.getSpriteIncrement(dirs[i]),
             dirs[i],
             10,
             250,
@@ -261,6 +261,29 @@ class Monster{
                     this.fireRate = 60;
             }
         }
+    }
+
+    getSpriteIncrement(direction){
+        //[[0, -1], [0, 1], [-1, 0], [1, 0], [1, -1], [1, 1], [-1, 1], [-1, -1]];
+        let increment = 0;
+        let dx = direction[0];
+        let dy = direction[1];
+        if (dx == 0 && dy == -1){
+            increment = 1;
+        } else if (dx == -1 && dy == 0){
+            increment = 2;
+        } else if (dx == 0 && dy == 1){
+            increment = 3;
+        } else if (dx == 1 && dy == 1){
+            increment = 4;
+        } else if (dx == -1 && dy == 1){
+            increment = 5;
+        } else if (dx == -1 && dy == -1){
+            increment = 6;
+        } else if (dx == 1 && dy == -1){
+            increment = 7;
+        }
+        return increment;
     }
 
 }
