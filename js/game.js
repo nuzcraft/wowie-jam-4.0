@@ -153,12 +153,24 @@ function getLocationOnFXSpritesheetSmall(spriteIndex){
 }
 
 function spawnMonsters(){
-    maxNumMonsters = Math.max(3, Math.floor((playerScore + companionScore)/100/4));
+    maxNumMonsters = Math.max(3, Math.floor((playerScore + companionScore)/100/6));
 
     if (monsters.length < maxNumMonsters){
         let x_loc = Math.random() * canvas.width;
         let y_loc = Math.random() * canvas.height;
         if (dist(player.x, player.y, x_loc, y_loc) > 200 && dist(companion.x, companion.y, x_loc, y_loc) > 200){
+            /**
+             * 0k 100z
+             * 2k 90z 10m
+             * 4 85z 15m
+             * 6 85z 10m 5g
+             * 10 80z 15m 5g
+             * 14 80z 10m 10g
+             * 20 70z 20m 10g
+             * 30 60z 20m 20g
+             * 50 30z 35m 35g
+             */
+            
             monsters.push(new Zombie(x_loc, y_loc));
         }
     }
