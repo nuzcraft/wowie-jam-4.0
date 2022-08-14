@@ -32,6 +32,9 @@ function startGame() {
     companionScore = 0;
     gameState = "running";
     shakeAmount = 0;
+
+    player.level = 2;
+    playerScore = 2300;
 }
 
 function tick(){
