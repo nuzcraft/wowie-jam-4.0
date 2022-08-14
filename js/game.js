@@ -22,12 +22,12 @@ const spr_fireball_green_1 = 160;
 const spr_fireball_sparkle_1 = 170;
 const spr_fireball_meteor_1 = 180;
 
-const spr_bushes_1 = 35;
-const spr_bushes_2 = 36;
-const spr_bushes_3 = 37;
-const spr_flowers_1 = 88;
-const spr_flowers_2 = 89;
-const spr_flowers_3 = 90;
+const spr_bushes_1 = 45;
+const spr_bushes_2 = 46;
+const spr_bushes_3 = 47;
+const spr_flowers_1 = 98;
+const spr_flowers_2 = 99;
+const spr_flowers_3 = 100;
 const spr_grass = 688;
 const spr_grass_dirt_1 = 699;
 const spr_grass_dirt_2 = 700;
@@ -49,6 +49,7 @@ function setupCanvas() {
   canvas.style.width = canvas.width + "px";
   canvas.style.height = canvas.height + "px";
   ctx.imageSmoothingEnabled = false;
+  genTiles();
 }
 
 function startGame() {
@@ -56,6 +57,7 @@ function startGame() {
   companion = new Companion(200, 200);
   projectiles = [];
   monsters = [];
+  tiles = [];
   playerScore = 0;
   companionScore = 0;
   gameState = "running";
@@ -103,7 +105,7 @@ function draw() {
 
   screenshake();
 
-  drawTiles();
+  tiles.forEach((tile) => tile.draw());
 
   monsters.forEach((monster) => monster.draw());
 
@@ -397,18 +399,39 @@ function screenshake() {
   shakeY = Math.round(Math.sin(shakeAngle) * shakeAmount);
 }
 
-function drawTiles() {
+function genTiles() {
   for (i = 0; i < canvas.width; i += 64) {
     for (j = 0; j < canvas.height; j += 64) {
       let rando = Math.random();
+      let rando2 = Math.random();
+      let spr = spr_grass;
+      let spr_overlay = spr_bushes_1;
       if (rando < 0.7) {
-        drawWorldSprite(spr_grass, i, j);
+        spr = spr_grass;
       } else if (rando < 0.8) {
-        drawWorldSprite(spr_grass_dirt_1, i, j);
+        spr = spr_grass_dirt_1;
       } else if (rando < 0.9) {
-        drawWorldSprite(spr_grass_dirt_2, i, j);
+        spr = spr_grass_dirt_2;
       } else {
-        drawWorldSprite(spr_grass_dirt_3, i, j);
+        spr = spr_grass_dirt_3;
+      }
+      if (rando2 < 0.82) {
+        tiles.push(new Tile(i, j, spr));
+      } else {
+        if (rando2 < 0.85) {
+          spr_overlay = spr_bushes_1;
+        } else if (rando2 < 0.88) {
+          spr_overlay = spr_bushes_2;
+        } else if (rando2 < 0.91) {
+          spr_overlay = spr_bushes_3;
+        } else if (rando2 < 0.94) {
+          spr_overlay = spr_flowers_1;
+        } else if (rando2 < 0.97) {
+          spr_overlay = spr_flowers_2;
+        } else {
+          spr_overlay = spr_flowers_3;
+        }
+        tiles.push(new Tile(i, j, spr, spr_overlay));
       }
     }
   }
