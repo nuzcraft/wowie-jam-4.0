@@ -5,7 +5,7 @@ const spr_red_wizard = 3;
 const spr_white_priest = 4;
 const spr_purple_wizard = 12;
 const spr_red_priest = 13;
-const spr_golem_skeleton = 212;
+const spr_golem_skeleton = 194;
 const spr_zombie = 288;
 const spr_mummy = 295;
 const spr_spectre = 297;
@@ -28,228 +28,332 @@ var maxNumMonsters = 3;
 
 var frameCount = 0;
 
-function setupCanvas(){
-    canvas = document.querySelector("canvas");
-    ctx = canvas.getContext("2d");
+function setupCanvas() {
+  canvas = document.querySelector("canvas");
+  ctx = canvas.getContext("2d");
 
-    canvas.width = 832;
-    canvas.height = 576;
-    canvas.style.width = canvas.width + "px";
-    canvas.style.height = canvas.height + "px";
-    ctx.imageSmoothingEnabled = false;
+  canvas.width = 832;
+  canvas.height = 576;
+  canvas.style.width = canvas.width + "px";
+  canvas.style.height = canvas.height + "px";
+  ctx.imageSmoothingEnabled = false;
 }
 
 function startGame() {
-    player = new Player(100, 100);
-    companion = new Companion(200, 200);
-    projectiles = [];
-    monsters = [];
-    playerScore = 0;
-    companionScore = 0;
-    gameState = "running";
-    shakeAmount = 0;
+  player = new Player(100, 100);
+  companion = new Companion(200, 200);
+  projectiles = [];
+  monsters = [];
+  playerScore = 0;
+  companionScore = 0;
+  gameState = "running";
+  shakeAmount = 0;
 }
 
-function tick(){
-    draw();
+function tick() {
+  draw();
 
-    if (gameState == "running"){
-        player.update();
-        companion.update();
-    
-        monsters.forEach((monster) => monster.update());
-    
-        projectiles.forEach((projectile) => projectile.update());
-    
-        for (let i = projectiles.length - 1; i>= 0; i--){
-            if (projectiles[i].dead){
-                projectiles.splice(i, 1);
-            }
-        }
-    
-        for (let i = monsters.length - 1; i>= 0; i--){
-            if (monsters[i].dead){
-                monsters.splice(i, 1);
-                shakeAmount = 12;
-            }
-        }
-    
-        if (player.dead || companion.dead){
-            gameState = "dead";
-            addScore(playerScore + companionScore);
-            shakeAmount = 20;
-        }
-    
-    
-        spawnMonsters();
+  if (gameState == "running") {
+    player.update();
+    companion.update();
+
+    monsters.forEach((monster) => monster.update());
+
+    projectiles.forEach((projectile) => projectile.update());
+
+    for (let i = projectiles.length - 1; i >= 0; i--) {
+      if (projectiles[i].dead) {
+        projectiles.splice(i, 1);
+      }
     }
 
-    frameCount += 1;
-}
-
-function draw(){
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    screenshake();
-    
-    monsters.forEach((monster) => monster.draw());
-
-    projectiles.forEach((projectile) => projectile.draw());
-
-    companion.draw();
-    player.draw();
-
-    drawScores();
-
-    if (gameState == "dead"){
-        showLoseScreen();
+    for (let i = monsters.length - 1; i >= 0; i--) {
+      if (monsters[i].dead) {
+        monsters.splice(i, 1);
+        shakeAmount = 12;
+      }
     }
+
+    if (player.dead || companion.dead) {
+      gameState = "dead";
+      addScore(playerScore + companionScore);
+      shakeAmount = 20;
+    }
+
+    spawnMonsters();
+  }
+
+  frameCount += 1;
 }
 
-function drawSprite(spriteIndex, x, y){
-    let [sprshtX, sprshtY] = getLocationOnSpritesheet(spriteIndex);
-    ctx.drawImage(spritesheet_creatures, sprshtX, sprshtY, 24, 24, x + shakeX, y + shakeY, 64, 64);
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  screenshake();
+
+  monsters.forEach((monster) => monster.draw());
+
+  projectiles.forEach((projectile) => projectile.draw());
+
+  companion.draw();
+  player.draw();
+
+  drawScores();
+
+  if (gameState == "dead") {
+    showLoseScreen();
+  }
 }
 
-function drawSpriteFlipped(spriteIndex, x, y){
-    let [sprshtX, sprshtY] = getLocationOnSpritesheetFlipped(spriteIndex);
-    ctx.drawImage(spritesheet_creatures_flipped, sprshtX, sprshtY, 24, 24, x + shakeX, y + shakeY, 64, 64);
+function drawSprite(spriteIndex, x, y) {
+  let [sprshtX, sprshtY] = getLocationOnSpritesheet(spriteIndex);
+  ctx.drawImage(
+    spritesheet_creatures,
+    sprshtX,
+    sprshtY,
+    24,
+    24,
+    x + shakeX,
+    y + shakeY,
+    64,
+    64
+  );
 }
 
-function drawFXSpriteSmall(spriteIndex, x, y){
-    let [sprshtX, sprshtY] = getLocationOnFXSpritesheetSmall(spriteIndex);
-    ctx.drawImage(spritesheet_fx, sprshtX, sprshtY, 24, 24, x + shakeX, y + shakeY, 64, 64);
+function drawSpriteFlipped(spriteIndex, x, y) {
+  let [sprshtX, sprshtY] = getLocationOnSpritesheetFlipped(spriteIndex);
+  ctx.drawImage(
+    spritesheet_creatures_flipped,
+    sprshtX,
+    sprshtY,
+    24,
+    24,
+    x + shakeX,
+    y + shakeY,
+    64,
+    64
+  );
 }
 
-function getLocationOnSpritesheet(spriteIndex){
-    let x_offset = 24;
-    let y_offset = 24;
-    let tile_width = 24;
-    let x_loc = (spriteIndex % 18) * tile_width;
-    let y_loc = Math.floor(spriteIndex / 18) * tile_width;
-
-    return [x_loc + x_offset, y_loc + y_offset];
+function drawFXSpriteSmall(spriteIndex, x, y) {
+  let [sprshtX, sprshtY] = getLocationOnFXSpritesheetSmall(spriteIndex);
+  ctx.drawImage(
+    spritesheet_fx,
+    sprshtX,
+    sprshtY,
+    24,
+    24,
+    x + shakeX,
+    y + shakeY,
+    64,
+    64
+  );
 }
 
-function getLocationOnSpritesheetFlipped(spriteIndex){
-    let x_offset = 24;
-    let y_offset = 24;
-    let tile_width = 24;
+function getLocationOnSpritesheet(spriteIndex) {
+  let x_offset = 24;
+  let y_offset = 24;
+  let tile_width = 24;
+  let x_loc = (spriteIndex % 18) * tile_width;
+  let y_loc = Math.floor(spriteIndex / 18) * tile_width;
 
-    let x_loc = (17*tile_width) - (spriteIndex % 18) * tile_width;
-    let y_loc = Math.floor(spriteIndex / 18) * tile_width;
-
-    return [x_loc + x_offset, y_loc + y_offset];
+  return [x_loc + x_offset, y_loc + y_offset];
 }
 
-function getLocationOnFXSpritesheetSmall(spriteIndex){
-    let x_offset = 24;
-    let y_offset = 24;
-    let tile_width = 24;
-    let x_loc = (spriteIndex % 10) * tile_width;
-    let y_loc = Math.floor(spriteIndex / 10) * tile_width;
+function getLocationOnSpritesheetFlipped(spriteIndex) {
+  let x_offset = 24;
+  let y_offset = 24;
+  let tile_width = 24;
 
-    return [x_loc + x_offset, y_loc + y_offset];
+  let x_loc = 17 * tile_width - (spriteIndex % 18) * tile_width;
+  let y_loc = Math.floor(spriteIndex / 18) * tile_width;
+
+  return [x_loc + x_offset, y_loc + y_offset];
 }
 
-function spawnMonsters(){
-    maxNumMonsters = Math.max(3, Math.floor((playerScore + companionScore)/100/6));
+function getLocationOnFXSpritesheetSmall(spriteIndex) {
+  let x_offset = 24;
+  let y_offset = 24;
+  let tile_width = 24;
+  let x_loc = (spriteIndex % 10) * tile_width;
+  let y_loc = Math.floor(spriteIndex / 10) * tile_width;
 
-    if (monsters.length < maxNumMonsters){
-        let x_loc = Math.random() * canvas.width;
-        let y_loc = Math.random() * canvas.height;
-        if (dist(player.x, player.y, x_loc, y_loc) > 200 && dist(companion.x, companion.y, x_loc, y_loc) > 200){
-            /**
-             * 0k 100z
-             * 2k 90z 10m
-             * 4 85z 15m
-             * 6 85z 10m 5g
-             * 10 80z 15m 5g
-             * 14 80z 10m 10g
-             * 20 70z 20m 10g
-             * 30 60z 20m 20g
-             * 50 30z 35m 35g
-             */
-            
-            monsters.push(new Zombie(x_loc, y_loc));
+  return [x_loc + x_offset, y_loc + y_offset];
+}
+
+function spawnMonsters() {
+  maxNumMonsters = Math.max(
+    3,
+    Math.floor((playerScore + companionScore) / 100 / 6)
+  );
+
+  if (monsters.length < maxNumMonsters) {
+    let x_loc = Math.random() * canvas.width;
+    let y_loc = Math.random() * canvas.height;
+    if (
+      dist(player.x, player.y, x_loc, y_loc) > 200 &&
+      dist(companion.x, companion.y, x_loc, y_loc) > 200
+    ) {
+      let combinedScore = playerScore + companionScore;
+      let randomNum = Math.random();
+      if (combinedScore < 2000) {
+        monsters.push(new Zombie(x_loc, y_loc));
+      } else if (combinedScore < 4000) {
+        if (randomNum < 0.9) {
+          monsters.push(new Zombie(x_loc, y_loc));
+        } else {
+          monsters.push(new Mummy(x_loc, y_loc));
         }
-    }
-}
-
-function dist(x1, y1, x2, y2){
-    return Math.abs(x1 - x2) + Math.abs(y1 - y2);
-}
-
-function drawText(text, size, centered, textY, color, textX){
-    ctx.fillStyle = color;
-    ctx.font = size + "px monospace";
-    if (!textX){
-        if (centered){
-            textX = (canvas.width - ctx.measureText(text).width) / 2;
+      } else if (combinedScore < 6000) {
+        if (randomNum < 0.85) {
+          monsters.push(new Zombie(x_loc, y_loc));
+        } else {
+          monsters.push(new Mummy(x_loc, y_loc));
         }
+      } else if (combinedScore < 10000) {
+        if (randomNum < 0.85) {
+          monsters.push(new Zombie(x_loc, y_loc));
+        } else if (randomNum < 0.95) {
+          monsters.push(new Mummy(x_loc, y_loc));
+        } else {
+          monsters.push(new GolemSkeleton(x_loc, y_loc));
+        }
+      } else if (combinedScore < 14000) {
+        if (randomNum < 0.8) {
+          monsters.push(new Zombie(x_loc, y_loc));
+        } else if (randomNum < 0.95) {
+          monsters.push(new Mummy(x_loc, y_loc));
+        } else {
+          monsters.push(new GolemSkeleton(x_loc, y_loc));
+        }
+      } else if (combinedScore < 20000) {
+        if (randomNum < 0.8) {
+          monsters.push(new Zombie(x_loc, y_loc));
+        } else if (randomNum < 0.9) {
+          monsters.push(new Mummy(x_loc, y_loc));
+        } else {
+          monsters.push(new GolemSkeleton(x_loc, y_loc));
+        }
+      } else if (combinedScore < 30000) {
+        if (randomNum < 0.7) {
+          monsters.push(new Zombie(x_loc, y_loc));
+        } else if (randomNum < 0.9) {
+          monsters.push(new Mummy(x_loc, y_loc));
+        } else {
+          monsters.push(new GolemSkeleton(x_loc, y_loc));
+        }
+      } else if (combinedScore < 50000) {
+        if (randomNum < 0.6) {
+          monsters.push(new Zombie(x_loc, y_loc));
+        } else if (randomNum < 0.8) {
+          monsters.push(new Mummy(x_loc, y_loc));
+        } else {
+          monsters.push(new GolemSkeleton(x_loc, y_loc));
+        }
+      } else {
+        if (randomNum < 0.3) {
+          monsters.push(new Zombie(x_loc, y_loc));
+        } else if (randomNum < 0.65) {
+          monsters.push(new Mummy(x_loc, y_loc));
+        } else {
+          monsters.push(new GolemSkeleton(x_loc, y_loc));
+        }
+      }
     }
-    ctx.fillText(text, textX, textY);
+  }
 }
 
-function showLoseScreen(){
-    ctx.fillStyle = "rgba(0, 0, 0, 0.75)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    drawText("One of you has", 60, true, canvas.height / 2 - 150, "red");
-    drawText("died to the horde.", 60, true, canvas.height / 2 - 90, "red");
-    
-    drawText("Player score: " + playerScore, 30, true, canvas.height / 2 - 60, "red");
-    drawText("Companion score: " + companionScore, 30, true, canvas.height / 2 - 30, "red");
-    // let totalScore = playerScore + companionScore;
-    // drawText("Total score: " + totalScore, 30, true, canvas.height / 2 + 60, "red")
-    drawScoresTitle();
-
-    drawText("press r to restart", 30, true, canvas.height - 50, "grey");
+function dist(x1, y1, x2, y2) {
+  return Math.abs(x1 - x2) + Math.abs(y1 - y2);
 }
 
-function drawScores(){
-    drawText("Player score: " + playerScore, 20, false, 30, "red", 10);
-    drawText("Companion score: " + companionScore, 20, false, 50, "red", 10);
+function drawText(text, size, centered, textY, color, textX) {
+  ctx.fillStyle = color;
+  ctx.font = size + "px monospace";
+  if (!textX) {
+    if (centered) {
+      textX = (canvas.width - ctx.measureText(text).width) / 2;
+    }
+  }
+  ctx.fillText(text, textX, textY);
+}
+
+function showLoseScreen() {
+  ctx.fillStyle = "rgba(0, 0, 0, 0.75)";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  drawText("One of you has", 60, true, canvas.height / 2 - 150, "red");
+  drawText("died to the horde.", 60, true, canvas.height / 2 - 90, "red");
+
+  drawText(
+    "Player score: " + playerScore,
+    30,
+    true,
+    canvas.height / 2 - 60,
+    "red"
+  );
+  drawText(
+    "Companion score: " + companionScore,
+    30,
+    true,
+    canvas.height / 2 - 30,
+    "red"
+  );
+  // let totalScore = playerScore + companionScore;
+  // drawText("Total score: " + totalScore, 30, true, canvas.height / 2 + 60, "red")
+  drawScoresTitle();
+
+  drawText("press r to restart", 30, true, canvas.height - 50, "grey");
+}
+
+function drawScores() {
+  drawText("Player score: " + playerScore, 20, false, 30, "red", 10);
+  drawText("Companion score: " + companionScore, 20, false, 50, "red", 10);
 }
 
 function getScores() {
-    if (localStorage["scores"]) {
-      return JSON.parse(localStorage["scores"]);
-    } else {
-      return [];
-    }
+  if (localStorage["scores"]) {
+    return JSON.parse(localStorage["scores"]);
+  } else {
+    return [];
   }
-
-function addScore(score){
-    let scores = getScores();
-    let scoreObject = {score: score};
-    scores.push(scoreObject);
-    localStorage["scores"] = JSON.stringify(scores);
 }
 
-function drawScoresTitle(){
-    let scores = getScores();
-    if (scores.length){
-        drawText("TOTAL SCORE", 18, true, canvas.height / 2, "white")
-    };
-    
-    let newestScore = scores.pop();
-    scores.sort(function(a, b){
-        return b.score - a.score
-    });
-    scores.unshift(newestScore);
+function addScore(score) {
+  let scores = getScores();
+  let scoreObject = { score: score };
+  scores.push(scoreObject);
+  localStorage["scores"] = JSON.stringify(scores);
+}
 
-    for (let i=0; i<Math.min(6, scores.length); i++){
-        drawText(scores[i].score, 18, true, canvas.height / 2 + 24 + i*24,
-        i==0? "yellow": "grey");
-    }
+function drawScoresTitle() {
+  let scores = getScores();
+  if (scores.length) {
+    drawText("TOTAL SCORE", 18, true, canvas.height / 2, "white");
+  }
+
+  let newestScore = scores.pop();
+  scores.sort(function (a, b) {
+    return b.score - a.score;
+  });
+  scores.unshift(newestScore);
+
+  for (let i = 0; i < Math.min(6, scores.length); i++) {
+    drawText(
+      scores[i].score,
+      18,
+      true,
+      canvas.height / 2 + 24 + i * 24,
+      i == 0 ? "yellow" : "grey"
+    );
+  }
 }
 
 function screenshake() {
-    if (shakeAmount) {
-      shakeAmount--;
-    }
-    let shakeAngle = Math.random() * Math.PI * 2;
-    shakeX = Math.round(Math.cos(shakeAngle) * shakeAmount);
-    shakeY = Math.round(Math.sin(shakeAngle) * shakeAmount);
+  if (shakeAmount) {
+    shakeAmount--;
   }
+  let shakeAngle = Math.random() * Math.PI * 2;
+  shakeX = Math.round(Math.cos(shakeAngle) * shakeAmount);
+  shakeY = Math.round(Math.sin(shakeAngle) * shakeAmount);
+}
