@@ -31,12 +31,12 @@ Needs:
 - [x] high score is stored
 - [ ] sound effects
 - [x] screenshake
+- [ ] player progression (new projectiles/speed as score goes up?)
 
 Stretch: 
 - fancy effects
 - more music + sound effects
 - varied enemies (with projectiles?)
-- player progression (new projectiles/speed as score goes up?)
 - enemy progression (increased spawn rates or speed as score goes up?)
 - optional randomization of player/companion/enemy/world/projectile sprites
 
@@ -52,3 +52,8 @@ Stretch:
 Total Dev Time: ~4.5 hours
 
 At the end of day 1, the project has a player, companion, and enemies. The player and companion can shoot projectiles that defeat enemies and raise the score. The enemies move towards the player and companion and defeat them. The companion tries to avoid the enemies and remain close to the player.
+
+## Ideas for player progression
+- [x] add player and companion levels, tied to score, maybe up to 5?
+- [x] levels tied to new projectiles and patterns
+- [x] add incrementing shot number for interesting patterns, up to 6?
