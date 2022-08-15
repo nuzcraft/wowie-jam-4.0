@@ -33,7 +33,7 @@ Needs:
 - [x] killed enemies add score for player + companion
 - [x] enemies kill player, end the game
 - [x] high score is stored
-- [ ] sound effects
+- [x] sound effects
 - [x] screenshake
 - [x] player progression (new projectiles/speed as score goes up?)
 - [x] enemy progression (increased spawn rates or speed as score goes up?)
@@ -41,7 +41,7 @@ Needs:
 - [x] background tiles
 - [x] character sprites that make sense (wizards I guess)
 - [x] character sprites that flip horizontally based on velocity
-- [ ] fancy effects
+- [x] fancy effects
 
 Stretch:
 
@@ -67,3 +67,6 @@ At the end of day 1, the project has a player, companion, and enemies. The playe
 - [x] add player and companion levels, tied to score, maybe up to 5?
 - [x] levels tied to new projectiles and patterns
 - [x] add incrementing shot number for interesting patterns, up to 6?
+
+Sprites by Oryx @ https://www.oryxdesignlab.com/
+Sounds by SFXR @ https://sfxr.me/
