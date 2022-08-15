@@ -555,12 +555,12 @@ function playSound(soundName) {
 }
 
 function relocatePlayerAndCompanion() {
-  let x_loc = Math.random() * canvas.width - 256;
-  let y_loc = Math.random() * canvas.height - 256;
+  let x_loc = Math.random() * (canvas.width - 256);
+  let y_loc = Math.random() * (canvas.height - 256);
   player.x = x_loc + 128;
   player.y = y_loc + 128;
-  x_loc = Math.random() * canvas.width - 256;
-  y_loc = Math.random() * canvas.height - 256;
+  x_loc = Math.random() * (canvas.width - 256);
+  y_loc = Math.random() * (canvas.height - 256);
   companion.x = x_loc + 128;
   companion.y = y_loc + 128;
   let tileW = getTile(player.x + 32, player.y - 32);
