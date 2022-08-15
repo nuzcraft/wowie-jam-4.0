@@ -22,8 +22,24 @@ const spr_fireball_green_1 = 160;
 const spr_fireball_sparkle_1 = 170;
 const spr_fireball_meteor_1 = 180;
 
+const spr_headstone = 28;
+const spr_bones = 31;
+const spr_bones_med = 35;
+const spr_bones_big = 37;
+const spr_bushes_1 = 45;
+const spr_bushes_2 = 46;
+const spr_bushes_3 = 47;
+const spr_flowers_1 = 98;
+const spr_flowers_2 = 99;
+const spr_flowers_3 = 100;
+const spr_grass = 688;
+const spr_grass_dirt_1 = 699;
+const spr_grass_dirt_2 = 700;
+const spr_grass_dirt_3 = 701;
+
 var projectiles = [];
 var monsters = [];
+var tiles = [];
 var maxNumMonsters = 3;
 
 var frameCount = 0;
@@ -37,6 +53,7 @@ function setupCanvas() {
   canvas.style.width = canvas.width + "px";
   canvas.style.height = canvas.height + "px";
   ctx.imageSmoothingEnabled = false;
+  genTiles();
 }
 
 function startGame() {
@@ -44,6 +61,7 @@ function startGame() {
   companion = new Companion(200, 200);
   projectiles = [];
   monsters = [];
+  tiles = [];
   playerScore = 0;
   companionScore = 0;
   gameState = "running";
@@ -69,8 +87,12 @@ function tick() {
 
     for (let i = monsters.length - 1; i >= 0; i--) {
       if (monsters[i].dead) {
+        let tile = getTile(monsters[i].x + 32, monsters[i].y + 32);
+        if (tile) {
+          tile.overlayIndex = monsters[i].corpseSprite;
+        }
         monsters.splice(i, 1);
-        shakeAmount = 12;
+        shakeAmount = 10;
       }
     }
 
@@ -78,6 +100,17 @@ function tick() {
       gameState = "dead";
       addScore(playerScore + companionScore);
       shakeAmount = 20;
+      if (player.dead) {
+        let tile = getTile(player.x + 32, player.y + 32);
+        if (tile) {
+          tile.overlayIndex = player.corpseSprite;
+        }
+      } else if (companion.dead) {
+        let tile = getTile(companion.x + 32, companion.y + 32);
+        if (tile) {
+          tile.overlayIndex = companion.corpseSprite;
+        }
+      }
     }
 
     spawnMonsters();
@@ -91,12 +124,18 @@ function draw() {
 
   screenshake();
 
+  tiles.forEach((tile) => tile.draw());
+
   monsters.forEach((monster) => monster.draw());
 
   projectiles.forEach((projectile) => projectile.draw());
 
-  companion.draw();
-  player.draw();
+  if (!companion.dead) {
+    companion.draw();
+  }
+  if (!player.dead) {
+    player.draw();
+  }
 
   drawScores();
 
@@ -150,6 +189,21 @@ function drawFXSpriteSmall(spriteIndex, x, y) {
   );
 }
 
+function drawWorldSprite(spriteIndex, x, y) {
+  let [sprshtX, sprshtY] = getLocationOnWorldSpritesheet(spriteIndex);
+  ctx.drawImage(
+    spritesheet_world,
+    sprshtX,
+    sprshtY,
+    24,
+    24,
+    x + shakeX,
+    y + shakeY,
+    64,
+    64
+  );
+}
+
 function getLocationOnSpritesheet(spriteIndex) {
   let x_offset = 24;
   let y_offset = 24;
@@ -177,6 +231,16 @@ function getLocationOnFXSpritesheetSmall(spriteIndex) {
   let tile_width = 24;
   let x_loc = (spriteIndex % 10) * tile_width;
   let y_loc = Math.floor(spriteIndex / 10) * tile_width;
+
+  return [x_loc + x_offset, y_loc + y_offset];
+}
+
+function getLocationOnWorldSpritesheet(spriteIndex) {
+  let x_offset = 24;
+  let y_offset = 24;
+  let tile_width = 24;
+  let x_loc = (spriteIndex % 55) * tile_width;
+  let y_loc = Math.floor(spriteIndex / 55) * tile_width;
 
   return [x_loc + x_offset, y_loc + y_offset];
 }
@@ -307,8 +371,8 @@ function showLoseScreen() {
 }
 
 function drawScores() {
-  drawText("Player score: " + playerScore, 20, false, 30, "red", 10);
-  drawText("Companion score: " + companionScore, 20, false, 50, "red", 10);
+  drawText("Player score: " + playerScore, 20, false, 30, "black", 10);
+  drawText("Companion score: " + companionScore, 20, false, 50, "black", 10);
 }
 
 function getScores() {
@@ -356,4 +420,53 @@ function screenshake() {
   let shakeAngle = Math.random() * Math.PI * 2;
   shakeX = Math.round(Math.cos(shakeAngle) * shakeAmount);
   shakeY = Math.round(Math.sin(shakeAngle) * shakeAmount);
+}
+
+function genTiles() {
+  for (i = 0; i < canvas.width; i += 64) {
+    for (j = 0; j < canvas.height; j += 64) {
+      let rando = Math.random();
+      let rando2 = Math.random();
+      let spr = spr_grass;
+      let spr_overlay = spr_bushes_1;
+      if (rando < 0.7) {
+        spr = spr_grass;
+      } else if (rando < 0.8) {
+        spr = spr_grass_dirt_1;
+      } else if (rando < 0.9) {
+        spr = spr_grass_dirt_2;
+      } else {
+        spr = spr_grass_dirt_3;
+      }
+      if (rando2 < 0.82) {
+        tiles.push(new Tile(i, j, spr));
+      } else {
+        if (rando2 < 0.85) {
+          spr_overlay = spr_bushes_1;
+        } else if (rando2 < 0.88) {
+          spr_overlay = spr_bushes_2;
+        } else if (rando2 < 0.91) {
+          spr_overlay = spr_bushes_3;
+        } else if (rando2 < 0.94) {
+          spr_overlay = spr_flowers_1;
+        } else if (rando2 < 0.97) {
+          spr_overlay = spr_flowers_2;
+        } else {
+          spr_overlay = spr_flowers_3;
+        }
+        tiles.push(new Tile(i, j, spr, spr_overlay));
+      }
+    }
+  }
+}
+
+function getTile(x, y) {
+  for (i = 0; i < tiles.length; i++) {
+    if (tiles[i].x <= x && tiles[i].x + 64 > x) {
+      if (tiles[i].y <= y && tiles[i].y + 64 > y) {
+        return tiles[i];
+      }
+    }
+  }
+  return null;
 }

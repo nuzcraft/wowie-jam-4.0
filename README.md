@@ -1,4 +1,5 @@
 # Jam Game for Wowie Jam 4.0
+
 Wowie! It has been a long time since I participated in a game jam. The last one was 7DRL in 2020? I hope I can have fun this time.
 
 I will be pretty busy this weekend, so I'm only planning to spend 2-3 hours jamming. This is pretty restricted, but I gotta start somewhere.
@@ -6,6 +7,7 @@ I will be pretty busy this weekend, so I'm only planning to spend 2-3 hours jamm
 The Jam will start overnight, but I spent a little time today thinking about what mechanics I might want to include or build the game around. These are super simple, which will hopefully help me keep scope down.
 
 ## mechanics ideas
+
 - dodging obstacles for high score
 - collect or hit objects for high score
 - jump up or down platforms infinitely
@@ -18,9 +20,11 @@ The Jam will start overnight, but I spent a little time today thinking about wha
 - infection game, x clicks or player to infect a group
 
 # THEME: Collaborate with AI!
+
 Idea: Vampire Survivors Style w/ Companion
 
 Needs:
+
 - [x] player that shoots projectiles
 - [x] companion that shoots projectiles
 - [x] companion controlled by ai
@@ -33,15 +37,15 @@ Needs:
 - [x] screenshake
 - [x] player progression (new projectiles/speed as score goes up?)
 - [x] enemy progression (increased spawn rates or speed as score goes up?)
-- [ ] varied enemies (with projectiles?)
-- [ ] background tiles
-- [ ] character sprites that make sense (wizards I guess)
-- [ ] character sprites that flip horizontally based on velocity
+- [x] varied enemies
+- [x] background tiles
+- [x] character sprites that make sense (wizards I guess)
+- [x] character sprites that flip horizontally based on velocity
+- [ ] fancy effects
 
-Stretch: 
-- fancy effects
+Stretch:
+
 - more music + sound effects
-- varied enemies (with projectiles?)
 - optional randomization of player/companion/enemy/world/projectile sprites
 
 ### Companion AI workshop
@@ -53,11 +57,13 @@ Stretch:
 5. the AI wants to get closer to the middle of the screen
 
 # End of Day1
+
 Total Dev Time: ~4.5 hours
 
 At the end of day 1, the project has a player, companion, and enemies. The player and companion can shoot projectiles that defeat enemies and raise the score. The enemies move towards the player and companion and defeat them. The companion tries to avoid the enemies and remain close to the player.
 
 ## Ideas for player progression
+
 - [x] add player and companion levels, tied to score, maybe up to 5?
 - [x] levels tied to new projectiles and patterns
 - [x] add incrementing shot number for interesting patterns, up to 6?
