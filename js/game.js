@@ -69,6 +69,7 @@ function setupCanvas() {
   canvas.style.height = canvas.height + "px";
   ctx.imageSmoothingEnabled = false;
   genTiles();
+  relocatePlayerAndCompanion();
 }
 
 function startGame() {
@@ -108,6 +109,7 @@ function tick() {
         let tile = getTile(monsters[i].x + 32, monsters[i].y + 32);
         if (tile) {
           tile.overlayIndex = monsters[i].corpseSprite;
+          tile.text = null;
         }
         monsters.splice(i, 1);
         shakeAmount = 10;
@@ -128,11 +130,13 @@ function tick() {
         let tile = getTile(player.x + 32, player.y + 32);
         if (tile) {
           tile.overlayIndex = player.corpseSprite;
+          tile.text = null;
         }
       } else if (companion.dead) {
         let tile = getTile(companion.x + 32, companion.y + 32);
         if (tile) {
           tile.overlayIndex = companion.corpseSprite;
+          tile.text = null;
         }
       }
     }
@@ -548,4 +552,23 @@ function initSounds() {
 function playSound(soundName) {
   sounds[soundName].currentTime = 0;
   sounds[soundName].play();
+}
+
+function relocatePlayerAndCompanion() {
+  let x_loc = Math.random() * canvas.width - 256;
+  let y_loc = Math.random() * canvas.height - 256;
+  player.x = x_loc + 128;
+  player.y = y_loc + 128;
+  x_loc = Math.random() * canvas.width - 256;
+  y_loc = Math.random() * canvas.height - 256;
+  companion.x = x_loc + 128;
+  companion.y = y_loc + 128;
+  let tileW = getTile(player.x + 32, player.y - 32);
+  tileW.text = "W";
+  let tileA = getTile(player.x - 32, player.y + 32);
+  tileA.text = "A";
+  let tileS = getTile(player.x + 32, player.y + 32 + 64);
+  tileS.text = "S";
+  let tileD = getTile(player.x + 32 + 64, player.y + 32);
+  tileD.text = "D";
 }
