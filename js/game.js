@@ -22,7 +22,10 @@ const spr_fireball_green_1 = 160;
 const spr_fireball_sparkle_1 = 170;
 const spr_fireball_meteor_1 = 180;
 
-const spr_bones = 37;
+const spr_headstone = 28;
+const spr_bones = 31;
+const spr_bones_med = 35;
+const spr_bones_big = 37;
 const spr_bushes_1 = 45;
 const spr_bushes_2 = 46;
 const spr_bushes_3 = 47;
@@ -84,9 +87,9 @@ function tick() {
 
     for (let i = monsters.length - 1; i >= 0; i--) {
       if (monsters[i].dead) {
-        let tile = getTile(monsters[i].x, monsters[i].y);
+        let tile = getTile(monsters[i].x + 32, monsters[i].y + 32);
         if (tile) {
-          tile.overlayIndex = spr_bones;
+          tile.overlayIndex = monsters[i].corpseSprite;
         }
         monsters.splice(i, 1);
         shakeAmount = 10;
@@ -97,6 +100,17 @@ function tick() {
       gameState = "dead";
       addScore(playerScore + companionScore);
       shakeAmount = 20;
+      if (player.dead) {
+        let tile = getTile(player.x + 32, player.y + 32);
+        if (tile) {
+          tile.overlayIndex = player.corpseSprite;
+        }
+      } else if (companion.dead) {
+        let tile = getTile(companion.x + 32, companion.y + 32);
+        if (tile) {
+          tile.overlayIndex = companion.corpseSprite;
+        }
+      }
     }
 
     spawnMonsters();
@@ -116,8 +130,12 @@ function draw() {
 
   projectiles.forEach((projectile) => projectile.draw());
 
-  companion.draw();
-  player.draw();
+  if (!companion.dead) {
+    companion.draw();
+  }
+  if (!player.dead) {
+    player.draw();
+  }
 
   drawScores();
 
@@ -353,8 +371,8 @@ function showLoseScreen() {
 }
 
 function drawScores() {
-  drawText("Player score: " + playerScore, 20, false, 30, "red", 10);
-  drawText("Companion score: " + companionScore, 20, false, 50, "red", 10);
+  drawText("Player score: " + playerScore, 20, false, 30, "black", 10);
+  drawText("Companion score: " + companionScore, 20, false, 50, "black", 10);
 }
 
 function getScores() {
@@ -446,7 +464,6 @@ function getTile(x, y) {
   for (i = 0; i < tiles.length; i++) {
     if (tiles[i].x <= x && tiles[i].x + 64 > x) {
       if (tiles[i].y <= y && tiles[i].y + 64 > y) {
-        console.log(tiles[i]);
         return tiles[i];
       }
     }
