@@ -5,9 +5,12 @@ const spr_red_wizard = 3;
 const spr_white_priest = 4;
 const spr_purple_wizard = 12;
 const spr_red_priest = 13;
+const spr_golem = 190;
+const spr_golem_red = 193;
 const spr_golem_skeleton = 194;
 const spr_zombie = 288;
 const spr_mummy = 295;
+const spr_mummy2 = 296;
 const spr_spectre = 297;
 
 const spr_yellow_ball_1 = 2;
@@ -21,6 +24,17 @@ const spr_fireball_black_1 = 150;
 const spr_fireball_green_1 = 160;
 const spr_fireball_sparkle_1 = 170;
 const spr_fireball_meteor_1 = 180;
+
+const spr_explosion_blue = 14;
+const spr_pink_fire = 30;
+const spr_explosion_pop = 72;
+const spr_zap_ball = 74;
+const spr_blue_fire = 76;
+const spr_explosion = 78;
+const spr_red_swipe = 80;
+const spr_explosion_yellow = 82;
+const spr_smoke = 84;
+const spr_star_ping = 86;
 
 const spr_headstone = 28;
 const spr_bones = 31;
@@ -40,6 +54,7 @@ const spr_grass_dirt_3 = 701;
 var projectiles = [];
 var monsters = [];
 var tiles = [];
+var effects = [];
 var maxNumMonsters = 3;
 
 var frameCount = 0;
@@ -62,6 +77,7 @@ function startGame() {
   projectiles = [];
   monsters = [];
   tiles = [];
+  effects = [];
   playerScore = 0;
   companionScore = 0;
   gameState = "running";
@@ -79,6 +95,8 @@ function tick() {
 
     projectiles.forEach((projectile) => projectile.update());
 
+    effects.forEach((effect) => effect.update());
+
     for (let i = projectiles.length - 1; i >= 0; i--) {
       if (projectiles[i].dead) {
         projectiles.splice(i, 1);
@@ -93,6 +111,12 @@ function tick() {
         }
         monsters.splice(i, 1);
         shakeAmount = 10;
+      }
+    }
+
+    for (let i = effects.length - 1; i >= 0; i--) {
+      if (effects[i].dead) {
+        effects.splice(i, 1);
       }
     }
 
@@ -136,6 +160,8 @@ function draw() {
   if (!player.dead) {
     player.draw();
   }
+
+  effects.forEach((effect) => effect.draw());
 
   drawScores();
 
@@ -189,6 +215,21 @@ function drawFXSpriteSmall(spriteIndex, x, y) {
   );
 }
 
+function drawFXSpriteLarge(spriteIndex, x, y) {
+  let [sprshtX, sprshtY] = getLocationOnFXSpritesheetLarge(spriteIndex);
+  ctx.drawImage(
+    spritesheet_fx,
+    sprshtX,
+    sprshtY,
+    32,
+    32,
+    x + shakeX,
+    y + shakeY,
+    64,
+    64
+  );
+}
+
 function drawWorldSprite(spriteIndex, x, y) {
   let [sprshtX, sprshtY] = getLocationOnWorldSpritesheet(spriteIndex);
   ctx.drawImage(
@@ -235,6 +276,16 @@ function getLocationOnFXSpritesheetSmall(spriteIndex) {
   return [x_loc + x_offset, y_loc + y_offset];
 }
 
+function getLocationOnFXSpritesheetLarge(spriteIndex) {
+  let x_offset = 288;
+  let y_offset = 32;
+  let tile_width = 32;
+  let x_loc = (spriteIndex % 8) * tile_width;
+  let y_loc = Math.floor(spriteIndex / 8) * tile_width;
+
+  return [x_loc + x_offset, y_loc + y_offset];
+}
+
 function getLocationOnWorldSpritesheet(spriteIndex) {
   let x_offset = 24;
   let y_offset = 24;
@@ -246,9 +297,17 @@ function getLocationOnWorldSpritesheet(spriteIndex) {
 }
 
 function spawnMonsters() {
+  let divide = 3;
+  if (playerScore + companion > 3000) divide = 6;
+  if (playerScore + companion > 6000) divide = 8;
+  if (playerScore + companion > 10000) divide = 10;
+  if (playerScore + companion > 15000) divide = 15;
+  if (playerScore + companion > 20000) divide = 20;
+  if (playerScore + companion > 30000) divide = 25;
+
   maxNumMonsters = Math.max(
     3,
-    Math.floor((playerScore + companionScore) / 100 / 6)
+    Math.floor((playerScore + companionScore) / 100 / divide)
   );
 
   if (monsters.length < maxNumMonsters) {
@@ -469,4 +528,24 @@ function getTile(x, y) {
     }
   }
   return null;
+}
+
+function initSounds() {
+  sounds = {
+    shoot1: new Audio("sounds/laserShoot1.wav"),
+    shoot2: new Audio("sounds/laserShoot2.wav"),
+    shoot3: new Audio("sounds/laserShoot3.wav"),
+    shoot4: new Audio("sounds/laserShoot4.wav"),
+    shoot5: new Audio("sounds/laserShoot5.wav"),
+    explosion1: new Audio("sounds/explosion1.wav"),
+    explosion2: new Audio("sounds/explosion2.wav"),
+    explosion3: new Audio("sounds/explosion3.wav"),
+    explosion4: new Audio("sounds/explosion4.wav"),
+    explosion5: new Audio("sounds/explosion5.wav"),
+  };
+}
+
+function playSound(soundName) {
+  sounds[soundName].currentTime = 0;
+  sounds[soundName].play();
 }
