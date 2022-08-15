@@ -13,7 +13,7 @@ class Tile {
       drawWorldSprite(this.overlayIndex, this.x, this.y);
     }
     if (this.text) {
-      drawText(this.text, 60, false, this.y, "black", this.x);
+      drawText(this.text, 60, false, this.y + 64, "black", this.x);
     }
   }
 }
