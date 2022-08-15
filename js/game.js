@@ -298,12 +298,12 @@ function getLocationOnWorldSpritesheet(spriteIndex) {
 
 function spawnMonsters() {
   let divide = 3;
-  if (playerScore + companion > 3000) divide = 4;
-  if (playerScore + companion > 6000) divide = 6;
-  if (playerScore + companion > 10000) divide = 8;
-  if (playerScore + companion > 15000) divide = 10;
-  if (playerScore + companion > 20000) divide = 15;
-  if (playerScore + companion > 30000) divide = 20;
+  if (playerScore + companion > 3000) divide = 6;
+  if (playerScore + companion > 6000) divide = 8;
+  if (playerScore + companion > 10000) divide = 10;
+  if (playerScore + companion > 15000) divide = 15;
+  if (playerScore + companion > 20000) divide = 20;
+  if (playerScore + companion > 30000) divide = 25;
 
   maxNumMonsters = Math.max(
     3,
@@ -528,4 +528,24 @@ function getTile(x, y) {
     }
   }
   return null;
+}
+
+function initSounds() {
+  sounds = {
+    shoot1: new Audio("sounds/laserShoot1.wav"),
+    shoot2: new Audio("sounds/laserShoot2.wav"),
+    shoot3: new Audio("sounds/laserShoot3.wav"),
+    shoot4: new Audio("sounds/laserShoot4.wav"),
+    shoot5: new Audio("sounds/laserShoot5.wav"),
+    explosion1: new Audio("sounds/explosion1.wav"),
+    explosion2: new Audio("sounds/explosion2.wav"),
+    explosion3: new Audio("sounds/explosion3.wav"),
+    explosion4: new Audio("sounds/explosion4.wav"),
+    explosion5: new Audio("sounds/explosion5.wav"),
+  };
+}
+
+function playSound(soundName) {
+  sounds[soundName].currentTime = 0;
+  sounds[soundName].play();
 }

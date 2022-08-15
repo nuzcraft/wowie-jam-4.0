@@ -30,6 +30,18 @@ class Projectile {
         }
         this.dead = true;
         effects.push(new this.effect(monsters[i]));
+        let rand = Math.random();
+        if (rand < 0.2) {
+          playSound("explosion1");
+        } else if (rand < 0.4) {
+          playSound("explosion2");
+        } else if (rand < 0.6) {
+          playSound("explosion3");
+        } else if (rand < 0.8) {
+          playSound("explosion4");
+        } else if (rand < 1) {
+          playSound("explosion5");
+        }
       }
     }
   }

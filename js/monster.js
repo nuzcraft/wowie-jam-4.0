@@ -75,6 +75,18 @@ class Monster {
       this.shoot();
       this.shootNumber += 1;
       if (this.shootNumber > 6) this.shootNumber = 1;
+      let rand = Math.random();
+      if (rand < 0.2) {
+        playSound("shoot1");
+      } else if (rand < 0.4) {
+        playSound("shoot2");
+      } else if (rand < 0.6) {
+        playSound("shoot3");
+      } else if (rand < 0.8) {
+        playSound("shoot4");
+      } else if (rand < 1) {
+        playSound("shoot5");
+      }
     }
 
     this.levelUp();
@@ -441,6 +453,18 @@ class Companion extends Monster {
       this.shoot();
       this.shootNumber += 1;
       if (this.shootNumber > 6) this.shootNumber = 1;
+      let rand = Math.random();
+      if (rand < 0.2) {
+        playSound("shoot1");
+      } else if (rand < 0.4) {
+        playSound("shoot2");
+      } else if (rand < 0.6) {
+        playSound("shoot3");
+      } else if (rand < 0.8) {
+        playSound("shoot4");
+      } else if (rand < 1) {
+        playSound("shoot5");
+      }
     }
 
     this.levelUp();
