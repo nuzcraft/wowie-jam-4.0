@@ -109,7 +109,6 @@ function tick() {
         let tile = getTile(monsters[i].x + 32, monsters[i].y + 32);
         if (tile) {
           tile.overlayIndex = monsters[i].corpseSprite;
-          tile.text = null;
         }
         monsters.splice(i, 1);
         shakeAmount = 10;
@@ -130,18 +129,20 @@ function tick() {
         let tile = getTile(player.x + 32, player.y + 32);
         if (tile) {
           tile.overlayIndex = player.corpseSprite;
-          tile.text = null;
         }
       } else if (companion.dead) {
         let tile = getTile(companion.x + 32, companion.y + 32);
         if (tile) {
           tile.overlayIndex = companion.corpseSprite;
-          tile.text = null;
         }
       }
     }
 
     spawnMonsters();
+
+    if (frameCount > 1000) {
+      tiles.forEach((tile) => (tile.text = null));
+    }
   }
 
   frameCount += 1;
