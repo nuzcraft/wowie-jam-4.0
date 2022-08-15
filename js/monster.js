@@ -146,7 +146,8 @@ class Monster {
           dirs[i],
           4,
           150 + bonus,
-          owner
+          owner,
+          ExplosionEffect
         )
       );
     }
@@ -187,7 +188,8 @@ class Monster {
           dirs[i],
           6,
           175 + bonus,
-          owner
+          owner,
+          BlueFireEffect
         )
       );
     }
@@ -231,7 +233,8 @@ class Monster {
           dirs[i],
           7,
           200 + companion_distance_bonus,
-          owner
+          owner,
+          BlueExplosionEffect
         )
       );
     }
@@ -267,7 +270,8 @@ class Monster {
           dirs[i],
           7,
           200 + bonus,
-          owner
+          owner,
+          PinkFireEffect
         )
       );
     }
@@ -301,9 +305,10 @@ class Monster {
           this.y + dirs[i][1] * 24,
           spr_fireball_meteor_1 + this.getSpriteIncrement(dirs[i]),
           dirs[i],
-          10,
+          8,
           250 + bonus,
-          owner
+          owner,
+          RedSwipeEffect
         )
       );
     }
@@ -322,7 +327,7 @@ class Monster {
         this.fireRate = 100;
       } else if (this.level == 4 && playerScore >= 10000) {
         this.level = 5;
-        this.fireRate = 60;
+        this.fireRate = 50;
       }
     }
     if (this.isCompanion) {
@@ -337,7 +342,7 @@ class Monster {
         this.fireRate = 100;
       } else if (this.level == 4 && playerScore >= 10000) {
         this.level = 5;
-        this.fireRate = 60;
+        this.fireRate = 50;
       }
     }
   }
@@ -450,7 +455,7 @@ class Zombie extends Monster {
 
 class Mummy extends Monster {
   constructor(x, y) {
-    super(x, y, spr_mummy);
+    super(x, y, spr_mummy2);
     this.speed = 1.5;
     this.corpseSprite = spr_bones_med;
   }
@@ -458,7 +463,7 @@ class Mummy extends Monster {
 
 class GolemSkeleton extends Monster {
   constructor(x, y) {
-    super(x, y, spr_golem_skeleton);
+    super(x, y, spr_golem_red);
     this.speed = 0.3;
     this.hp = 3;
     this.corpseSprite = spr_bones_big;
