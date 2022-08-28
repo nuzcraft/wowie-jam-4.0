@@ -8,7 +8,7 @@ Over 1,000 games were entered and I'm very happy with how my game was rated, lan
 
 There are definitely some elements I can improve on, most importantly 'Fun', but I'm proud of the game nonetheless.
 
-Well, you're here for a devlog, so here's how I made Wizard Couple Survivors.
+Well, you're here for a devlog, my name is Nuzcraft, and here's how I made Wizard Couple Survivors.
 
 ## Preparation
 
@@ -20,9 +20,9 @@ It's here that I give a shoutout to Jeremiah Reid and his wonderful Broughlike t
 
 https://nluqo.github.io/broughlike-tutorial/
 
-I wrote down a bunch of ideas for basic mechanics that I hoped I could build out with a total jam time of 2-3 hours.
+I wrote down a bunch of ideas for basic mechanics that I hoped I could build out with a total jam time of 2-3 hours. Dodging or collecting objects for a high score isn't particularly engaging, but I was looking for broad ideas I could implement in a very short timeframe, maybe 2-3 hours.
 
-Later that night, I happened across a cool video here on Youtube, where a couple of developers tried to recreated Vampire Survivors in 10 lines of code in Godot. Little did I know that this would serve as inspiration the next day. There's a link to the video in the description.
+Later that night, I happened across a cool video here on Youtube, where a couple of developers tried to recreate Vampire Survivors in 10 lines of code in Godot. Little did I know that this would serve as inspiration the next day. There's a link to the video in the description.
 
 https://www.youtube.com/watch?v=LgvLbahJOTA
 
@@ -30,13 +30,13 @@ https://www.youtube.com/watch?v=LgvLbahJOTA
 
 Jam day kicked off with the reveal of the jam theme 'Collaborate with AI'. I immediately threw out all my ideas from yesterday and latched onto the idea of building a Vampire Survivors game with an AI companion to help.
 
-I listed out minimum requirements for the game as well as some stretch goals to shoot for after the minimum had been met.
-
-I think this was an important step for me, because it allowed me to take things one step at a time and feel comfortable when I hit the threshold for my minimum viable product.
+I listed out minimum requirements for the game as well as some stretch goals to shoot for after the minimum had been met.  I think this was an important step for me, because it allowed me to take things one step at a time and feel comfortable when I hit the threshold for my minimum viable product.
 
 Things started as they do for most everyone. I got the architecture set up to render a screen, then added a player and companion with some basic WASD movement.
 
-Getting smooth movement was difficult, as I'd only ever made turn based games and prototypes. After some online research, I was able to find a solution that worked well enough for me.
+I pulled a bunch of boilerplate syntax, function logic, and class structures from a separate project of mine. Almost nothing was fully copy-pasted, but it was really helpful to see instances where I'd solved those problems before.
+
+Getting smooth movement was difficult, as I'd only ever made turn based games and prototypes. After some research, I was able to find a solution that worked well enough for me.
 
 I'm using the 16-bit Fantasy tileset from Oryx Design Lab, link in the description. I really like this set as well as their other work.
 
@@ -55,3 +55,14 @@ Each frame, the companion finds enemies that are too close and calculates which 
 At the end of day 1, there were only 3 'needs' missing from our game: stored high scores, screenshake, and sounds. I'd spent ~4 hours developing the game so far, which was more than I'd expected to be able spend the entire weekend.
 
 ## Jam Day 2
+
+The first thing I worked on Day 2 was high scores. I decided to score the player and companion separately and combine the scores for the high score. Most of the logic here was pulled from Jeremiah Reid's Broughlike tutorial, altered to make sense for the kinds of scores I was storing.
+
+Screenshake went in as a quick feature, and all of a sudden I was only one feature away from my minimum viable product! Was it now time to work on sounds? No. I started pulling from my wishlist by starting to work on player progression.
+
+At this point, the game could have been called done, but it was frightfully difficult to lose. Player progression made it so that the player fired different kinds of projectiles as they gained score, basically as a level up system to help them deal with higher volumes of enemies.
+
+Both the player and companion would eventually transition through 5 different levels of projectiles, each expanding the previous one's ability to take out monsters. This took the majority of day 2. I knew that this progression had the opportunity to feel good for the player, and I wasn't too concerned with the state of the game since we'd gotten so many features in already. I spent about 2 hours developing on day 2.
+
+## Jam Day 3
+
